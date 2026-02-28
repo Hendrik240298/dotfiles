@@ -90,6 +90,11 @@
         "when": "sideBarFocus"
     },
     {
+        "key": "space g",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "sideBarFocus"
+    },
+    {
         "key": "space c",
         "command": "workbench.action.toggleSidebarVisibility",
         "when": "sideBarFocus"

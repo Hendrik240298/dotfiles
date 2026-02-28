@@ -408,7 +408,78 @@
         {
             "before": [
                 "<leader>",
-                "a"
+                "g",
+                "g"
+            ],
+            "commands": [
+                "workbench.view.scm"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "s"
+            ],
+            "commands": [
+                "git.stage"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "u"
+            ],
+            "commands": [
+                "git.unstage"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "S"
+            ],
+            "commands": [
+                "git.stageAll"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "c"
+            ],
+            "commands": [
+                "git.commit"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "p"
+            ],
+            "commands": [
+                "git.push"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "l"
+            ],
+            "commands": [
+                "git.pull"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "a",
+                "i"
             ],
             "commands": [
                 "workbench.action.chat.open"
@@ -496,6 +567,24 @@
             ],
             "commands": [
                 "editor.action.showHover"
+            ]
+        },
+        {
+            "before": [
+                "[",
+                "h"
+            ],
+            "commands": [
+                "editor.action.dirtydiff.previous"
+            ]
+        },
+        {
+            "before": [
+                "]",
+                "h"
+            ],
+            "commands": [
+                "editor.action.dirtydiff.next"
             ]
         },
         {
