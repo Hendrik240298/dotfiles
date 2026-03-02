@@ -82,26 +82,26 @@
     {
         "key": "space e",
         "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus"
+        "when": "sideBarFocus && !inputFocus"
     },
     {
         "key": "space s",
         "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus"
+        "when": "sideBarFocus && !inputFocus"
     },
     {
         "key": "space g",
         "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus"
+        "when": "sideBarFocus && !inputFocus"
     },
     {
         "key": "space c",
         "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus"
+        "when": "sideBarFocus && !inputFocus"
     },
     {
         "key": "space c",
         "command": "workbench.action.toggleAuxiliaryBar",
-        "when": "auxiliaryBarFocus"
+        "when": "auxiliaryBarFocus && !inputFocus"
     }
 ]
