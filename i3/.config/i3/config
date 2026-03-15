@@ -124,6 +124,8 @@ mode "resize" {
 exec --no-startup-id nm-applet
 exec --no-startup-id dunst
 exec --no-startup-id copyq --start-server
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 1a1b26
 exec_always --no-startup-id setxkbmap -layout de,us -variant ,colemak -option grp:alt_shift_toggle
 exec_always --no-startup-id xrandr --output DP-0 --off && xrandr --output HDMI-0 --primary --mode 2560x1440 --pos 0x0 --rotate normal && xrandr --output DP-0 --mode 2560x1440 --pos 2560x0 --rotate normal
@@ -131,5 +133,3 @@ exec_always --no-startup-id feh --bg-max "$HOME/Pictures/background.jpg"
 bar {
     mode invisible
 }
-
-exec_always --no-startup-id sh -c 'pkill polybar; polybar main'
