@@ -14,9 +14,9 @@ set $yellow    #e0af68
 font pango:JetBrainsMono Nerd Font 10
 default_orientation horizontal
 
-default_border pixel 2
-default_floating_border pixel 2
-hide_edge_borders both
+default_border normal 2
+default_floating_border normal 2
+hide_edge_borders none
 
 client.focused          $blue   $blue   $bg   $purple
 client.unfocused        $bg-alt $bg-alt $fg   $bg-alt
