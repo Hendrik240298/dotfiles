@@ -14,8 +14,8 @@ set $yellow    #e0af68
 font pango:JetBrainsMono Nerd Font 10
 default_orientation horizontal
 
-default_border normal 2
-default_floating_border normal 2
+default_border pixel 2
+default_floating_border pixel 2
 hide_edge_borders none
 
 client.focused          $blue   $blue   $bg   $purple
@@ -100,6 +100,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym $mod+Control+x exec --no-startup-id ~/.config/i3/scripts/voxtype-toggle.sh
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 bindsym --release $mod+Shift+y exec --no-startup-id ~/.config/i3/scripts/screenshot-full.sh
@@ -124,6 +125,7 @@ mode "resize" {
 exec --no-startup-id nm-applet
 exec --no-startup-id dunst
 exec --no-startup-id copyq --start-server
+exec --no-startup-id systemctl --user start voxtype.service
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 1a1b26

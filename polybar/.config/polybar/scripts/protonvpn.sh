@@ -1,12 +1,27 @@
 #!/usr/bin/env sh
 
 is_connected() {
+    command -v nmcli >/dev/null 2>&1 || return 1
     nmcli -t -f DEVICE,STATE device status | grep -q '^proton0:connected$'
 }
 
 notify() {
+    command -v notify-send >/dev/null 2>&1 || return 0
     notify-send "Proton VPN" "$1"
 }
+
+if ! command -v protonvpn >/dev/null 2>&1; then
+    case "${1:-}" in
+        status)
+            printf 'VPN:n/a\n'
+            exit 0
+            ;;
+        *)
+            notify 'Install Proton VPN CLI to use this toggle'
+            exit 1
+            ;;
+    esac
+fi
 
 connect_de() {
     output=$(protonvpn connect --country DE 2>&1)
