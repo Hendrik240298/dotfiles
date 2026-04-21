@@ -24,6 +24,8 @@ client.unfocused        $bg-alt $bg-alt $fg   $bg-alt
 client.focused_inactive $bg-alt $bg-alt $fg   $bg-alt
 client.urgent           $red    $red    $bg   $red
 
+for_window [instance="^brave-browser$" window_role="^status-icon$"] kill
+
 workspace 1 output HDMI-0
 workspace 2 output HDMI-0
 workspace 3 output HDMI-0
@@ -60,15 +62,14 @@ bindsym $mod+Tab exec rofi -show window
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Control+Shift+c exec code
-bindsym $mod+Shift+b exec brave-browser
+bindsym $mod+Shift+b exec --no-startup-id brave-browser --new-window
 bindsym $mod+Shift+s exec spotify
 bindsym $mod+Shift+z exec zoom
 bindsym $mod+Shift+t exec flatpak run com.todoist.Todoist
 bindsym $mod+Shift+o exec obsidian
 bindsym $mod+Shift+n exec --no-startup-id sh -c 'if command -v x-terminal-emulator >/dev/null 2>&1; then x-terminal-emulator -e nmtui; elif command -v wezterm >/dev/null 2>&1; then wezterm start -- nmtui; elif command -v alacritty >/dev/null 2>&1; then alacritty -e nmtui; fi'
 bindsym $mod+Shift+p exec --no-startup-id blueman-manager
-bindsym $mod+Control+d exec --no-startup-id setxkbmap -layout de -option ""
-bindsym $mod+Control+u exec --no-startup-id setxkbmap -layout us -variant colemak -option ""
+bindsym $mod+Control+u exec --no-startup-id setxkbmap -layout us -variant altgr-intl -option ""
 
 bindsym $mod+Return exec $term
 bindsym $mod+w kill
@@ -135,8 +136,8 @@ exec --no-startup-id copyq --start-server
 exec --no-startup-id systemctl --user start voxtype.service
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 1a1b26
-exec_always --no-startup-id setxkbmap -layout de,us -variant ,colemak -option grp:alt_shift_toggle
-exec_always --no-startup-id sh -c 'xrandr --output DP-0 --off && xrandr --output DP-0 --mode 2560x1440 --pos 0x0 --rotate normal --output HDMI-0 --primary --mode 2560x1440 --pos 2560x0 --rotate normal && ~/.config/polybar/launch.sh && feh --bg-fill "$HOME/Pictures/background.jpg"'
+exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl -option ""
+exec_always --no-startup-id sh -c 'xrandr --output DP-0 --off && xrandr --output DP-0 --mode 2560x1440 --pos 0x0 --rotate normal --output HDMI-0 --primary --mode 2560x1440 --pos 2560x0 --rotate normal && ~/.config/polybar/launch.sh && feh --bg-fill "$HOME/Pictures/background2.jpg"'
 bar {
     mode invisible
 }
