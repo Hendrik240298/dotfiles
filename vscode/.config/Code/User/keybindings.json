@@ -150,6 +150,16 @@
         "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
     },
     {
+        "key": "space w v",
+        "command": "workbench.action.splitEditorRight",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space w s",
+        "command": "workbench.action.splitEditorDown",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
         "key": "space n a",
         "command": "notebook.execute",
         "when": "notebookEditorFocused && !inputFocus"

@@ -83,6 +83,8 @@ This documents the custom keybindings currently active via:
 | `<C-j>` | Focus below editor group |
 | `<C-k>` | Focus above editor group |
 | `<C-l>` | Focus right editor group |
+| `<leader>wv` | Split editor right |
+| `<leader>ws` | Split editor down |
 | `<leader>ww` | Focus next editor group |
 | `<leader>wd` | Close editors in current group |
 | `<leader>w` | Save file |
@@ -117,6 +119,8 @@ These exist because VSCodeVim mappings do not apply in all UI contexts.
 | `Space um` | Empty editor group focused | Toggle menu bar |
 | `Space d` | Empty editor group focused | Open Problems view |
 | `Space qq` | Empty editor group focused | Close VS Code window |
+| `Space wv` | Empty editor group focused | Split editor right |
+| `Space ws` | Empty editor group focused | Split editor down |
 | `Space e` | Sidebar focused | Toggle sidebar |
 | `Space s` | Sidebar focused | Toggle sidebar |
 | `Space g` | Sidebar focused | Toggle sidebar |

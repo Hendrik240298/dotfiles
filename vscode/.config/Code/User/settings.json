@@ -4,6 +4,7 @@
     "cmake.configureOnOpen": true,
     "terminal.integrated.inheritEnv": false,
     "editor.minimap.enabled": false,
+    "editor.lineNumbers": "relative",
     "workbench.startupEditor": "none",
     "powermode.enabled": true,
     "git.confirmSync": false,
@@ -695,6 +696,26 @@
             ],
             "commands": [
                 "workbench.action.focusRightGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "v"
+            ],
+            "commands": [
+                "workbench.action.splitEditorRight"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.splitEditorDown"
             ]
         },
         {
