@@ -22,6 +22,7 @@ This documents the custom keybindings currently active via:
 | `<leader>fr` | Open Recent |
 | `<leader>/` | Find in current file |
 | `<leader>sg` | Find in files (project grep) |
+| `<leader>sc` | Command Palette / Commands |
 | `<leader>bb` | Show editors (MRU) |
 
 ### Explorer / SQL / UI / AI
@@ -34,7 +35,8 @@ This documents the custom keybindings currently active via:
 | `<leader>sq` | New SQL query |
 | `<leader>ai` | Open Copilot Chat |
 | `<leader>us` | Toggle sidebar visibility |
-| `<leader>ua` | Toggle auxiliary bar |
+| `<leader>uv` | Toggle auxiliary bar |
+| `<leader>um` | Toggle menu bar |
 
 ### Notebook
 
@@ -105,12 +107,14 @@ These exist because VSCodeVim mappings do not apply in all UI contexts.
 | `Space ss` | Empty editor group focused | Focus SQL Server Object Explorer |
 | `Space sq` | Empty editor group focused | New SQL query |
 | `Space sg` | Empty editor group focused | Find in files |
+| `Space sc` | Empty editor group focused | Command Palette / Commands |
 | `Space bb` | Empty editor group focused | Show editors (MRU) |
 | `Space e` | Empty editor group focused | Focus Explorer |
 | `Space gg` | Empty editor group focused | Focus Source Control view |
 | `Space ai` | Empty editor group focused | Open Copilot Chat |
 | `Space us` | Empty editor group focused | Toggle sidebar visibility |
-| `Space ua` | Empty editor group focused | Toggle auxiliary bar |
+| `Space uv` | Empty editor group focused | Toggle auxiliary bar |
+| `Space um` | Empty editor group focused | Toggle menu bar |
 | `Space d` | Empty editor group focused | Open Problems view |
 | `Space qq` | Empty editor group focused | Close VS Code window |
 | `Space e` | Sidebar focused | Toggle sidebar |

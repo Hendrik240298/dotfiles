@@ -100,6 +100,11 @@
         "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
     },
     {
+        "key": "space s c",
+        "command": "workbench.action.showCommands",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
         "key": "space b b",
         "command": "workbench.action.showAllEditorsByMostRecentlyUsed",
         "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
@@ -125,8 +130,13 @@
         "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
     },
     {
-        "key": "space u a",
+        "key": "space u v",
         "command": "workbench.action.toggleAuxiliaryBar",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space u m",
+        "command": "workbench.action.toggleMenuBar",
         "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
     },
     {

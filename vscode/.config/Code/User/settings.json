@@ -67,6 +67,7 @@
     "jupyter.askForKernelRestart": false,
     "latex-workshop.latex.autoBuild.interval": 500,
     "workbench.sideBar.location": "right",
+    "window.menuBarVisibility": "toggle",
     "ltex.additionalRules.languageModel": "de",
     "github.copilot.editor.enableAutoCompletions": true,
     "ltex.disabledRules": {
@@ -388,6 +389,16 @@
         {
             "before": [
                 "<leader>",
+                "s",
+                "c"
+            ],
+            "commands": [
+                "workbench.action.showCommands"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
                 "b",
                 "b"
             ],
@@ -538,10 +549,20 @@
             "before": [
                 "<leader>",
                 "u",
-                "a"
+                "v"
             ],
             "commands": [
                 "workbench.action.toggleAuxiliaryBar"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u",
+                "m"
+            ],
+            "commands": [
+                "workbench.action.toggleMenuBar"
             ]
         },
         {
