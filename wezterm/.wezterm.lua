@@ -20,6 +20,7 @@ config.color_scheme = 'Tokyo Night'
 config.window_decorations = 'RESIZE'
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
+config.send_composed_key_when_right_alt_is_pressed = false
 
 config.keys = {
   {

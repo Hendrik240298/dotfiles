@@ -136,7 +136,7 @@ exec --no-startup-id copyq --start-server
 exec --no-startup-id systemctl --user start voxtype.service
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 1a1b26
-exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl -option ""
+exec_always --no-startup-id sh -c 'sleep 2; setxkbmap -layout us -variant altgr-intl -option ""'
 exec_always --no-startup-id sh -c 'xrandr --output DP-0 --off && xrandr --output DP-0 --mode 2560x1440 --pos 0x0 --rotate normal --output HDMI-0 --primary --mode 2560x1440 --pos 2560x0 --rotate normal && ~/.config/polybar/launch.sh && feh --bg-fill "$HOME/Pictures/background2.jpg"'
 bar {
     mode invisible
