@@ -60,6 +60,106 @@
         "when": "sideBarFocus || auxiliaryBarFocus"
     },
     {
+        "key": "ctrl+c",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "sideBarFocus || auxiliaryBarFocus"
+    },
+    {
+        "key": "space space",
+        "command": "workbench.action.quickOpen",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space f f",
+        "command": "workbench.action.quickOpen",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space f r",
+        "command": "workbench.action.openRecent",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space s",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space s s",
+        "command": "workbench.view.extension.objectExplorer",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space s q",
+        "command": "mssql.newQuery",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space s g",
+        "command": "workbench.action.findInFiles",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space b b",
+        "command": "workbench.action.showAllEditorsByMostRecentlyUsed",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space e",
+        "command": "workbench.view.explorer",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space g g",
+        "command": "workbench.view.scm",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space a i",
+        "command": "workbench.action.chat.open",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space u s",
+        "command": "workbench.action.toggleSidebarVisibility",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space u a",
+        "command": "workbench.action.toggleAuxiliaryBar",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space d",
+        "command": "workbench.actions.view.problems",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space q q",
+        "command": "workbench.action.closeWindow",
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+    },
+    {
+        "key": "space n a",
+        "command": "notebook.execute",
+        "when": "notebookEditorFocused && !inputFocus"
+    },
+    {
+        "key": "space n r",
+        "command": "notebook.cell.execute",
+        "when": "notebookEditorFocused && !inputFocus"
+    },
+    {
+        "key": "space n i",
+        "command": "jupyter.interruptkernel",
+        "when": "notebookEditorFocused && !inputFocus"
+    },
+    {
+        "key": "space n k",
+        "command": "notebook.selectKernel",
+        "when": "notebookEditorFocused && !inputFocus"
+    },
+    {
         "key": "j",
         "command": "list.focusDown",
         "when": "listFocus && !inputFocus"

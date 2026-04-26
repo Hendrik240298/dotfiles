@@ -69,7 +69,6 @@
     "workbench.sideBar.location": "right",
     "ltex.additionalRules.languageModel": "de",
     "github.copilot.editor.enableAutoCompletions": true,
-    "workbench.colorTheme": "GitHub Dark",
     "ltex.disabledRules": {
 
     },
@@ -488,6 +487,46 @@
         {
             "before": [
                 "<leader>",
+                "n",
+                "a"
+            ],
+            "commands": [
+                "notebook.execute"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "n",
+                "r"
+            ],
+            "commands": [
+                "notebook.cell.execute"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "n",
+                "i"
+            ],
+            "commands": [
+                "jupyter.interruptkernel"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "n",
+                "k"
+            ],
+            "commands": [
+                "notebook.selectKernel"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
                 "u",
                 "s"
             ],
@@ -664,5 +703,6 @@
             "name": "ROOT",
             "id": "ROOT"
         }
-    ]
+    ],
+    "workbench.colorTheme": "Tokyo Night Gogh"
 }

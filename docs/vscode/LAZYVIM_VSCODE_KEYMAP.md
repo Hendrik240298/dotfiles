@@ -2,8 +2,8 @@
 
 This documents the custom keybindings currently active via:
 
-- `vscode/settings.json` (`vim.*` mappings handled by VSCodeVim)
-- `vscode/keybindings.json` (UI/list behavior outside editor focus)
+- `vscode/.config/Code/User/settings.json` (`vim.*` mappings handled by VSCodeVim)
+- `vscode/.config/Code/User/keybindings.json` (UI/list behavior outside editor focus)
 
 ## Core Vim Setup
 
@@ -35,6 +35,15 @@ This documents the custom keybindings currently active via:
 | `<leader>ai` | Open Copilot Chat |
 | `<leader>us` | Toggle sidebar visibility |
 | `<leader>ua` | Toggle auxiliary bar |
+
+### Notebook
+
+| Key | Action |
+|---|---|
+| `<leader>na` | Run all notebook cells |
+| `<leader>nr` | Run current notebook cell |
+| `<leader>ni` | Interrupt notebook kernel |
+| `<leader>nk` | Open notebook kernel picker |
 
 ### Git (SCM)
 
@@ -87,11 +96,32 @@ These exist because VSCodeVim mappings do not apply in all UI contexts.
 | Key | When | Action |
 |---|---|---|
 | `Esc` | Sidebar or auxiliary bar focused | Return focus to editor |
+| `Ctrl+C` | Sidebar or auxiliary bar focused | Return focus to editor |
+| `Space ...` | Empty editor group focused | Use leader-style chords without VSCodeVim editor focus |
+| `Space Space` | Empty editor group focused | Quick Open |
+| `Space ff` | Empty editor group focused | Quick Open |
+| `Space fr` | Empty editor group focused | Open Recent |
+| `Space s` | Empty editor group focused | Toggle sidebar visibility |
+| `Space ss` | Empty editor group focused | Focus SQL Server Object Explorer |
+| `Space sq` | Empty editor group focused | New SQL query |
+| `Space sg` | Empty editor group focused | Find in files |
+| `Space bb` | Empty editor group focused | Show editors (MRU) |
+| `Space e` | Empty editor group focused | Focus Explorer |
+| `Space gg` | Empty editor group focused | Focus Source Control view |
+| `Space ai` | Empty editor group focused | Open Copilot Chat |
+| `Space us` | Empty editor group focused | Toggle sidebar visibility |
+| `Space ua` | Empty editor group focused | Toggle auxiliary bar |
+| `Space d` | Empty editor group focused | Open Problems view |
+| `Space qq` | Empty editor group focused | Close VS Code window |
 | `Space e` | Sidebar focused | Toggle sidebar |
 | `Space s` | Sidebar focused | Toggle sidebar |
 | `Space g` | Sidebar focused | Toggle sidebar |
 | `Space c` | Sidebar focused | Toggle sidebar |
 | `Space c` | Auxiliary bar focused | Toggle auxiliary bar |
+| `Space na` | Notebook command mode | Run all notebook cells |
+| `Space nr` | Notebook command mode | Run current notebook cell |
+| `Space ni` | Notebook command mode | Interrupt notebook kernel |
+| `Space nk` | Notebook command mode | Open notebook kernel picker |
 
 ### Vim-like List Navigation
 
@@ -105,4 +135,5 @@ These exist because VSCodeVim mappings do not apply in all UI contexts.
 ## Notes
 
 - This is a VSCodeVim-first setup inspired by LazyVim, not a 1:1 Neovim replica.
-- Sidebar/panel behavior is split between `vim.normalModeKeyBindingsNonRecursive` and `keybindings.json` by design.
+- Sidebar/panel and empty-editor behavior are split between `vim.normalModeKeyBindingsNonRecursive` and `keybindings.json` by design, because VSCodeVim only owns key handling while an editor is active.
+- Notebook leader behavior is split the same way: `vim.normalModeKeyBindingsNonRecursive` covers a cell editor in normal mode, while `keybindings.json` covers notebook command mode (`Esc` out of the cell, then use the same chord).
