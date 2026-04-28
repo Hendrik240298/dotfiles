@@ -2,38 +2,32 @@
 
 set -eu
 
-sudo pacman -S --noconfirm --needed networkmanager
-sudo pacman -S --noconfirm --needed proton-vpn-cli
+sudo pacman -S --noconfirm --needed networkmanager gnome-keyring libsecret proton-vpn-cli
 
 sudo systemctl stop systemd-networkd.service 2>/dev/null || true
 sudo systemctl disable systemd-networkd.service 2>/dev/null || true
+sudo systemctl disable --now iwd.service 2>/dev/null || true
 
 sudo systemctl enable NetworkManager.service
 sudo systemctl start NetworkManager.service
 
-# Omarchy uses a passwordless Default_keyring so autologin sessions can use
-# libsecret apps without a separate keyring unlock prompt.
+# Proton VPN stores its login in libsecret. Do not synthesize a keyring file;
+# gnome-keyring will create the right one during `protonvpn signin`.
 KEYRING_DIR="$HOME/.local/share/keyrings"
-KEYRING_FILE="$KEYRING_DIR/Default_keyring.keyring"
 DEFAULT_KEYRING_FILE="$KEYRING_DIR/default"
 
 mkdir -p "$KEYRING_DIR"
 
-if [ ! -f "$KEYRING_FILE" ]; then
-  cat > "$KEYRING_FILE" << EOF
-[keyring]
-display-name=Default keyring
-ctime=$(date +%s)
-mtime=0
-lock-on-idle=false
-lock-after=false
-EOF
+if [ -f "$KEYRING_DIR/Default.keyring" ]; then
+  printf '%s\n' 'Default' > "$DEFAULT_KEYRING_FILE"
+  if [ -f "$KEYRING_DIR/Default_keyring.keyring" ]; then
+    mv "$KEYRING_DIR/Default_keyring.keyring" "$KEYRING_DIR/Default_keyring.keyring.bak.$(date +%s)"
+  fi
 fi
 
-printf '%s\n' 'Default_keyring' > "$DEFAULT_KEYRING_FILE"
 chmod 700 "$KEYRING_DIR"
-chmod 600 "$KEYRING_FILE"
-chmod 644 "$DEFAULT_KEYRING_FILE"
+[ ! -f "$KEYRING_DIR/Default.keyring" ] || chmod 600 "$KEYRING_DIR/Default.keyring"
+[ ! -f "$DEFAULT_KEYRING_FILE" ] || chmod 644 "$DEFAULT_KEYRING_FILE"
 
 # The Proton VPN CLI expects a user D-Bus session and an unlocked keyring.
 # Install this as a login-time user service, not a lingering pre-login service.
@@ -52,18 +46,27 @@ After=dbus.socket gnome-keyring-daemon.service
 [Service]
 Type=oneshot
 Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus
-ExecStartPre=/usr/bin/nm-online -q -t 120
-ExecStart=/usr/bin/protonvpn connect
-RemainAfterExit=yes
-Restart=on-failure
-RestartSec=30
+TimeoutStartSec=90
+ExecStart=/bin/sh -c '/usr/bin/nm-online -q -t 20 || exit 0; account=$(/usr/bin/protonvpn info 2>/dev/null || true); case "$account" in *"Account: '\''None'\''"*) exit 0 ;; esac; /usr/bin/protonvpn connect || exit 0'
+Restart=no
+EOF
+
+cat > "$HOME/.config/systemd/user/protonvpn.timer" << 'EOF'
+[Unit]
+Description=Delay ProtonVPN Auto Connect until after login
+
+[Timer]
+OnStartupSec=20s
+AccuracySec=5s
+Unit=protonvpn.service
 
 [Install]
-WantedBy=default.target
+WantedBy=timers.target
 EOF
 
 systemctl --user daemon-reload
-systemctl --user enable protonvpn.service
+systemctl --user disable --now protonvpn.service 2>/dev/null || true
+systemctl --user enable protonvpn.timer
 
 sudo loginctl disable-linger "$USER" 2>/dev/null || true
 
