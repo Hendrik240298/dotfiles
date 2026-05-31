@@ -278,323 +278,334 @@
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
     "vim.useCtrlKeys": true,
+    "vim.timeoutlen": 250,
     "vim.handleKeys": {
         "<C-p>": true
     },
+    "whichkey.delay": 0,
+    "whichkey.sortOrder": "none",
+    "whichkey.bindings": [
+        {
+            "key": " ",
+            "name": "Quick open",
+            "type": "command",
+            "command": "workbench.action.quickOpen"
+        },
+        {
+            "key": "/",
+            "name": "Find in file",
+            "type": "command",
+            "command": "actions.find"
+        },
+        {
+            "key": "a",
+            "name": "+AI",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "i",
+                    "name": "Open chat",
+                    "type": "command",
+                    "command": "workbench.action.chat.open"
+                }
+            ]
+        },
+        {
+            "key": "b",
+            "name": "+Buffers",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "b",
+                    "name": "Show all buffers",
+                    "type": "command",
+                    "command": "workbench.action.showAllEditorsByMostRecentlyUsed"
+                }
+            ]
+        },
+        {
+            "key": "c",
+            "name": "+Code",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "a",
+                    "name": "Quick fix",
+                    "type": "command",
+                    "command": "editor.action.quickFix"
+                }
+            ]
+        },
+        {
+            "key": "d",
+            "name": "Problems",
+            "type": "command",
+            "command": "workbench.actions.view.problems"
+        },
+        {
+            "key": "e",
+            "name": "Explorer",
+            "type": "command",
+            "command": "workbench.view.explorer"
+        },
+        {
+            "key": "f",
+            "name": "+Files",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "f",
+                    "name": "Find file",
+                    "type": "command",
+                    "command": "workbench.action.quickOpen"
+                },
+                {
+                    "key": "r",
+                    "name": "Open recent",
+                    "type": "command",
+                    "command": "workbench.action.openRecent"
+                }
+            ]
+        },
+        {
+            "key": "g",
+            "name": "+Git",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "g",
+                    "name": "Source control",
+                    "type": "command",
+                    "command": "workbench.view.scm"
+                },
+                {
+                    "key": "s",
+                    "name": "Stage",
+                    "type": "command",
+                    "command": "git.stage"
+                },
+                {
+                    "key": "u",
+                    "name": "Unstage",
+                    "type": "command",
+                    "command": "git.unstage"
+                },
+                {
+                    "key": "S",
+                    "name": "Stage all",
+                    "type": "command",
+                    "command": "git.stageAll"
+                },
+                {
+                    "key": "c",
+                    "name": "Commit",
+                    "type": "command",
+                    "command": "git.commit"
+                },
+                {
+                    "key": "p",
+                    "name": "Push",
+                    "type": "command",
+                    "command": "git.push"
+                },
+                {
+                    "key": "l",
+                    "name": "Pull",
+                    "type": "command",
+                    "command": "git.pull"
+                }
+            ]
+        },
+        {
+            "key": "h",
+            "name": "+Horizontal",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "s",
+                    "name": "Horizontal split",
+                    "type": "command",
+                    "command": "workbench.action.splitEditorDown"
+                }
+            ]
+        },
+        {
+            "key": "n",
+            "name": "+Notebook",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "a",
+                    "name": "Run all cells",
+                    "type": "command",
+                    "command": "notebook.execute"
+                },
+                {
+                    "key": "r",
+                    "name": "Run cell",
+                    "type": "command",
+                    "command": "notebook.cell.execute"
+                },
+                {
+                    "key": "i",
+                    "name": "Interrupt kernel",
+                    "type": "command",
+                    "command": "jupyter.interruptkernel"
+                },
+                {
+                    "key": "k",
+                    "name": "Select kernel",
+                    "type": "command",
+                    "command": "notebook.selectKernel"
+                }
+            ]
+        },
+        {
+            "key": "q",
+            "name": "+Quit",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "q",
+                    "name": "Close window",
+                    "type": "command",
+                    "command": "workbench.action.closeWindow"
+                },
+                {
+                    "key": "e",
+                    "name": "Close editor",
+                    "type": "command",
+                    "command": "workbench.action.closeActiveEditor"
+                }
+            ]
+        },
+        {
+            "key": "r",
+            "name": "+Refactor",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "n",
+                    "name": "Rename",
+                    "type": "command",
+                    "command": "editor.action.rename"
+                }
+            ]
+        },
+        {
+            "key": "s",
+            "name": "+Search/SQL",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "s",
+                    "name": "Object explorer",
+                    "type": "command",
+                    "command": "workbench.view.extension.objectExplorer"
+                },
+                {
+                    "key": "q",
+                    "name": "New SQL query",
+                    "type": "command",
+                    "command": "mssql.newQuery"
+                },
+                {
+                    "key": "g",
+                    "name": "Find in files",
+                    "type": "command",
+                    "command": "workbench.action.findInFiles"
+                },
+                {
+                    "key": "c",
+                    "name": "Command palette",
+                    "type": "command",
+                    "command": "workbench.action.showCommands"
+                },
+                {
+                    "key": "b",
+                    "name": "Toggle sidebar",
+                    "type": "command",
+                    "command": "workbench.action.toggleSidebarVisibility"
+                }
+            ]
+        },
+        {
+            "key": "u",
+            "name": "+UI",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "s",
+                    "name": "Toggle sidebar",
+                    "type": "command",
+                    "command": "workbench.action.toggleSidebarVisibility"
+                },
+                {
+                    "key": "v",
+                    "name": "Toggle auxiliary bar",
+                    "type": "command",
+                    "command": "workbench.action.toggleAuxiliaryBar"
+                },
+                {
+                    "key": "m",
+                    "name": "Toggle menu bar",
+                    "type": "command",
+                    "command": "workbench.action.toggleMenuBar"
+                }
+            ]
+        },
+        {
+            "key": "v",
+            "name": "+Vertical",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "s",
+                    "name": "Vertical split",
+                    "type": "command",
+                    "command": "workbench.action.splitEditorRight"
+                }
+            ]
+        },
+        {
+            "key": "w",
+            "name": "+Windows",
+            "type": "bindings",
+            "bindings": [
+                {
+                    "key": "s",
+                    "name": "Horizontal split",
+                    "type": "command",
+                    "command": "workbench.action.splitEditorDown"
+                },
+                {
+                    "key": "v",
+                    "name": "Vertical split",
+                    "type": "command",
+                    "command": "workbench.action.splitEditorRight"
+                },
+                {
+                    "key": "w",
+                    "name": "Next window",
+                    "type": "command",
+                    "command": "workbench.action.focusNextGroup"
+                },
+                {
+                    "key": "d",
+                    "name": "Close window group",
+                    "type": "command",
+                    "command": "workbench.action.closeEditorsInGroup"
+                },
+                {
+                    "key": "S",
+                    "name": "Save file",
+                    "type": "command",
+                    "command": "workbench.action.files.save"
+                }
+            ]
+        }
+    ],
     "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<leader>",
-                "<leader>"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "w"
-            ],
-            "commands": [
-                "workbench.action.files.save"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "q"
-            ],
-            "commands": [
-                "workbench.action.closeActiveEditor"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "q",
-                "q"
-            ],
-            "commands": [
-                "workbench.action.closeWindow"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "f",
-                "f"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "f",
-                "r"
-            ],
-            "commands": [
-                "workbench.action.openRecent"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "/"
-            ],
-            "commands": [
-                "actions.find"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "s",
-                "s"
-            ],
-            "commands": [
-                "workbench.view.extension.objectExplorer"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "s"
-            ],
-            "commands": [
-                "workbench.action.toggleSidebarVisibility"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "s",
-                "q"
-            ],
-            "commands": [
-                "mssql.newQuery"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "s",
-                "g"
-            ],
-            "commands": [
-                "workbench.action.findInFiles"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "s",
-                "c"
-            ],
-            "commands": [
-                "workbench.action.showCommands"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "b",
-                "b"
-            ],
-            "commands": [
-                "workbench.action.showAllEditorsByMostRecentlyUsed"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "e"
-            ],
-            "commands": [
-                "workbench.view.explorer"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "g"
-            ],
-            "commands": [
-                "workbench.view.scm"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "s"
-            ],
-            "commands": [
-                "git.stage"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "u"
-            ],
-            "commands": [
-                "git.unstage"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "S"
-            ],
-            "commands": [
-                "git.stageAll"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "c"
-            ],
-            "commands": [
-                "git.commit"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "p"
-            ],
-            "commands": [
-                "git.push"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "g",
-                "l"
-            ],
-            "commands": [
-                "git.pull"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "a",
-                "i"
-            ],
-            "commands": [
-                "workbench.action.chat.open"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "n",
-                "a"
-            ],
-            "commands": [
-                "notebook.execute"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "n",
-                "r"
-            ],
-            "commands": [
-                "notebook.cell.execute"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "n",
-                "i"
-            ],
-            "commands": [
-                "jupyter.interruptkernel"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "n",
-                "k"
-            ],
-            "commands": [
-                "notebook.selectKernel"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "u",
-                "s"
-            ],
-            "commands": [
-                "workbench.action.toggleSidebarVisibility"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "u",
-                "v"
-            ],
-            "commands": [
-                "workbench.action.toggleAuxiliaryBar"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "u",
-                "m"
-            ],
-            "commands": [
-                "workbench.action.toggleMenuBar"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "c",
-                "a"
-            ],
-            "commands": [
-                "editor.action.quickFix"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "r",
-                "n"
-            ],
-            "commands": [
-                "editor.action.rename"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "d"
-            ],
-            "commands": [
-                "workbench.actions.view.problems"
-            ]
-        },
         {
             "before": [
                 "g",
@@ -696,46 +707,6 @@
             ],
             "commands": [
                 "workbench.action.focusRightGroup"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "w",
-                "v"
-            ],
-            "commands": [
-                "workbench.action.splitEditorRight"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "w",
-                "s"
-            ],
-            "commands": [
-                "workbench.action.splitEditorDown"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "w",
-                "w"
-            ],
-            "commands": [
-                "workbench.action.focusNextGroup"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "w",
-                "d"
-            ],
-            "commands": [
-                "workbench.action.closeEditorsInGroup"
             ]
         }
     ],

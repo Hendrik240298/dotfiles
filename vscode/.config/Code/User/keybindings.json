@@ -65,119 +65,44 @@
         "when": "sideBarFocus || auxiliaryBarFocus"
     },
     {
-        "key": "space space",
-        "command": "workbench.action.quickOpen",
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode"
+    },
+    {
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Visual' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode"
+    },
+    {
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "editorTextFocus && vim.active && vim.mode == 'VisualLine' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode"
+    },
+    {
+        "key": "space",
+        "command": "whichkey.show",
         "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
     },
     {
-        "key": "space f f",
-        "command": "workbench.action.quickOpen",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space f r",
-        "command": "workbench.action.openRecent",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space s",
-        "command": "workbench.action.toggleSidebarVisibility",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space s s",
-        "command": "workbench.view.extension.objectExplorer",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space s q",
-        "command": "mssql.newQuery",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space s g",
-        "command": "workbench.action.findInFiles",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space s c",
-        "command": "workbench.action.showCommands",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space b b",
-        "command": "workbench.action.showAllEditorsByMostRecentlyUsed",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space e",
-        "command": "workbench.view.explorer",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space g g",
-        "command": "workbench.view.scm",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space a i",
-        "command": "workbench.action.chat.open",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space u s",
-        "command": "workbench.action.toggleSidebarVisibility",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space u v",
-        "command": "workbench.action.toggleAuxiliaryBar",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space u m",
-        "command": "workbench.action.toggleMenuBar",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space d",
-        "command": "workbench.actions.view.problems",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space q q",
-        "command": "workbench.action.closeWindow",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space w v",
-        "command": "workbench.action.splitEditorRight",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space w s",
-        "command": "workbench.action.splitEditorDown",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
-    },
-    {
-        "key": "space n a",
-        "command": "notebook.execute",
+        "key": "space",
+        "command": "whichkey.show",
         "when": "notebookEditorFocused && !inputFocus"
     },
     {
-        "key": "space n r",
-        "command": "notebook.cell.execute",
-        "when": "notebookEditorFocused && !inputFocus"
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "sideBarFocus && !inputFocus"
     },
     {
-        "key": "space n i",
-        "command": "jupyter.interruptkernel",
-        "when": "notebookEditorFocused && !inputFocus"
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "auxiliaryBarFocus && !inputFocus"
     },
     {
-        "key": "space n k",
-        "command": "notebook.selectKernel",
-        "when": "notebookEditorFocused && !inputFocus"
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "panelFocus && !inputFocus"
     },
     {
         "key": "j",
@@ -198,30 +123,5 @@
         "key": "l",
         "command": "list.expand",
         "when": "listFocus && !inputFocus"
-    },
-    {
-        "key": "space e",
-        "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus && !inputFocus"
-    },
-    {
-        "key": "space s",
-        "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus && !inputFocus"
-    },
-    {
-        "key": "space g",
-        "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus && !inputFocus"
-    },
-    {
-        "key": "space c",
-        "command": "workbench.action.toggleSidebarVisibility",
-        "when": "sideBarFocus && !inputFocus"
-    },
-    {
-        "key": "space c",
-        "command": "workbench.action.toggleAuxiliaryBar",
-        "when": "auxiliaryBarFocus && !inputFocus"
     }
 ]
