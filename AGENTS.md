@@ -22,6 +22,7 @@
 ## Runtime Coupling
 - Omarchy is the active desktop environment on this machine. Do not assume i3 or Polybar changes affect the live session unless the user says they still use those legacy configs.
 - `omarchy/` contains the current Omarchy-specific overrides tracked by this repo.
+- For any VS Code related work, read `docs/vscode/LAZYVIM_VSCODE_KEYMAP.md` first for the current keymap architecture and maintenance rules.
 - `i3/.config/i3/config` hardcodes a dual-monitor layout: workspaces are pinned to `HDMI-0` / `DP-0`, and startup runs `xrandr` to force both outputs to `2560x1440`. Treat workspace bindings and the `xrandr` line as a coupled change when editing the legacy i3 setup.
 - Legacy i3 starts Polybar via `~/.config/polybar/launch.sh`; if bar startup breaks, check that path first.
 - i3 wallpaper startup uses `$HOME/Pictures/background.jpg`. The repo root `background.jpg` is not referenced by the active config.

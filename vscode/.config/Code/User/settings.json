@@ -70,14 +70,14 @@
     "workbench.sideBar.location": "right",
     "window.menuBarVisibility": "toggle",
     "ltex.additionalRules.languageModel": "de",
-    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.editor.enableAutoCompletions": false,
     "ltex.disabledRules": {
 
     },
     "ltex.enabledRules": {},
     "makefile.configureOnOpen": true,
     "latex-workshop.formatting.latex": "latexindent",
-    "github.copilot.nextEditSuggestions.enabled": true,
+    "github.copilot.nextEditSuggestions.enabled": false,
     "chat.tools.terminal.autoApprove": {
         "python": true
     },
@@ -320,6 +320,12 @@
                     "name": "Show all buffers",
                     "type": "command",
                     "command": "workbench.action.showAllEditorsByMostRecentlyUsed"
+                },
+                {
+                    "key": "n",
+                    "name": "New tab",
+                    "type": "command",
+                    "command": "workbench.action.files.newUntitledFile"
                 }
             ]
         },

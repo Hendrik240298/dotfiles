@@ -1,65 +1,184 @@
-# VS Code LazyVim-Style Keymap (Current Draft)
+# VS Code LazyVim-Style Setup
 
-This documents the custom keybindings currently active via:
+This documents the current VS Code setup managed by the `vscode` Stow package.
 
-- `vscode/.config/Code/User/settings.json` (`vim.*` mappings handled by VSCodeVim)
-- `vscode/.config/Code/User/keybindings.json` (UI/list behavior outside editor focus)
+Config files:
 
-## Core Vim Setup
+- `vscode/.config/Code/User/settings.json`
+- `vscode/.config/Code/User/keybindings.json`
 
-- Leader: `Space` (`vim.leader = "<space>"`)
-- `Ctrl+P` handled by Vim (`vim.handleKeys["<C-p>"] = true`)
-- Clipboard integration enabled (`vim.useSystemClipboard = true`)
+## Philosophy
 
-## Leader Mappings (Normal Mode)
+This is a keyboard-first VS Code setup inspired by Vim/Neovim and LazyVim, not a strict Neovim clone.
 
-### Files / Search / Buffers
+The goal is to combine:
+
+- VSCodeVim for modal editing inside text editors.
+- Which Key as a discoverable leader-menu overlay and command router.
+- Native VS Code keybindings for UI contexts where VSCodeVim does not own input.
+- Copilot as an explicit tool, not ambient autocomplete noise.
+- VS Code's notebook, preview, sidebar, and editor-group model where it is useful.
+
+The leader key is `Space`. Pressing `Space` should open Which Key instantly in normal-mode/editor and non-editor contexts. After the menu is open, the next key is handled by Which Key, not by VSCodeVim leader remaps.
+
+This design intentionally avoids many direct `Space ...` chords in `keybindings.json`, because those make VS Code wait to decide whether `Space` starts a chord. Instead, `Space` opens Which Key immediately, and Which Key owns the menu.
+
+## Tool Roles
+
+| Tool | Role |
+|---|---|
+| VSCodeVim | Modal editing, Vim motions, normal-mode LSP/navigation bindings |
+| Which Key (`VSpaceCode.whichkey`) | Discoverable leader-menu overlay and leader command execution |
+| VS Code keybindings | Open Which Key outside normal editor focus and provide UI/list behavior |
+| GitHub Copilot | Manual inline suggestions and chat, not automatic ghost text |
+| Jupyter/Notebooks | Notebook commands exposed through the same leader menu |
+
+## Core Settings
+
+| Setting | Value / Purpose |
+|---|---|
+| `vim.leader` | `<space>` |
+| `vim.useSystemClipboard` | Use system clipboard |
+| `vim.useCtrlKeys` | Keep Vim control-key behavior enabled |
+| `vim.timeoutlen` | `250`, kept low so Vim mappings feel responsive |
+| `whichkey.delay` | `0`, show leader menu immediately |
+| `whichkey.sortOrder` | `none`, preserve configured menu order |
+| `editor.inlineSuggest.enabled` | `true`, required for manual inline suggestions |
+| `github.copilot.editor.enableAutoCompletions` | `false`, no automatic Copilot ghost text |
+| `github.copilot.nextEditSuggestions.enabled` | `false`, no automatic next-edit suggestions |
+
+## Leader Activation
+
+`Space` opens Which Key in these contexts:
+
+| Context | Behavior |
+|---|---|
+| Vim normal mode in an editor | Open Which Key |
+| Vim visual mode in an editor | Open Which Key |
+| Empty editor group | Open Which Key |
+| Notebook command mode | Open Which Key |
+| Sidebar, auxiliary bar, or panel focus | Open Which Key |
+| Markdown preview | Open Which Key |
+| Text input / Vim insert mode | Type a literal space |
+
+When Which Key is already open:
 
 | Key | Action |
 |---|---|
-| `<leader><leader>` | Quick Open (file fuzzy search) |
-| `<leader>ff` | Quick Open |
-| `<leader>fr` | Open Recent |
+| `Space` | Trigger the `Space` item in the Which Key menu, currently Quick Open |
+
+## Leader Menu
+
+These mappings are defined in `whichkey.bindings`.
+
+### Root
+
+| Key | Action |
+|---|---|
+| `<leader><leader>` | Quick Open / fuzzy file search |
 | `<leader>/` | Find in current file |
-| `<leader>sg` | Find in files (project grep) |
-| `<leader>sc` | Command Palette / Commands |
-| `<leader>bb` | Show editors (MRU) |
+| `<leader>d` | Problems |
+| `<leader>e` | Explorer |
 
-### Explorer / SQL / UI / AI
+### AI
 
 | Key | Action |
 |---|---|
-| `<leader>e` | Focus Explorer |
-| `<leader>s` | Toggle sidebar visibility |
-| `<leader>ss` | Focus SQL Server Object Explorer |
-| `<leader>sq` | New SQL query |
-| `<leader>ai` | Open Copilot Chat |
-| `<leader>us` | Toggle sidebar visibility |
-| `<leader>uv` | Toggle auxiliary bar |
-| `<leader>um` | Toggle menu bar |
+| `<leader>ai` | Open chat |
+
+### Buffers
+
+| Key | Action |
+|---|---|
+| `<leader>bb` | Show all buffers/editors by most recently used |
+| `<leader>bn` | New tab / untitled editor |
+
+### Code
+
+| Key | Action |
+|---|---|
+| `<leader>ca` | Quick fix / code action |
+
+### Files
+
+| Key | Action |
+|---|---|
+| `<leader>ff` | Find file / Quick Open |
+| `<leader>fr` | Open Recent |
+
+### Git
+
+| Key | Action |
+|---|---|
+| `<leader>gg` | Source Control view |
+| `<leader>gs` | Stage |
+| `<leader>gu` | Unstage |
+| `<leader>gS` | Stage all |
+| `<leader>gc` | Commit |
+| `<leader>gp` | Push |
+| `<leader>gl` | Pull |
+
+### Splits And Windows
+
+| Key | Action |
+|---|---|
+| `<leader>vs` | Vertical split right |
+| `<leader>hs` | Horizontal split down |
+| `<leader>wv` | Vertical split right |
+| `<leader>ws` | Horizontal split down |
+| `<leader>ww` | Focus next editor group |
+| `<leader>wd` | Close editors in current group |
+| `<leader>wS` | Save file |
+
+Notes:
+
+- `v s` and `h s` are kept as direct mnemonic split commands.
+- The `w` group keeps the traditional window-management cluster.
+- `w d` closes the focused editor group/pane, which is the closest VS Code equivalent to closing the selected split pane.
 
 ### Notebook
 
 | Key | Action |
 |---|---|
-| `<leader>na` | Run all notebook cells |
-| `<leader>nr` | Run current notebook cell |
-| `<leader>ni` | Interrupt notebook kernel |
-| `<leader>nk` | Open notebook kernel picker |
+| `<leader>na` | Run all cells |
+| `<leader>nr` | Run current cell |
+| `<leader>ni` | Interrupt kernel |
+| `<leader>nk` | Select kernel |
 
-### Git (SCM)
+### Quit / Close
 
 | Key | Action |
 |---|---|
-| `<leader>gg` | Focus Source Control view |
-| `<leader>gs` | Stage current change |
-| `<leader>gu` | Unstage current change |
-| `<leader>gS` | Stage all changes |
-| `<leader>gc` | Commit |
-| `<leader>gp` | Push |
-| `<leader>gl` | Pull |
+| `<leader>qq` | Close VS Code window |
+| `<leader>qe` | Close active editor |
 
-### LSP / Diagnostics / Code Actions
+### Refactor
+
+| Key | Action |
+|---|---|
+| `<leader>rn` | Rename symbol |
+
+### Search / SQL
+
+| Key | Action |
+|---|---|
+| `<leader>ss` | SQL Server Object Explorer |
+| `<leader>sq` | New SQL query |
+| `<leader>sg` | Find in files |
+| `<leader>sc` | Command palette |
+| `<leader>sb` | Toggle sidebar |
+
+### UI
+
+| Key | Action |
+|---|---|
+| `<leader>us` | Toggle sidebar |
+| `<leader>uv` | Toggle auxiliary bar |
+| `<leader>um` | Toggle menu bar |
+
+## Vim Normal-Mode Bindings
+
+These remain as direct VSCodeVim mappings because they are editor-local Vim-style motions or navigation commands, not leader menu items.
 
 | Key | Action |
 |---|---|
@@ -67,81 +186,63 @@ This documents the custom keybindings currently active via:
 | `gr` | Go to references |
 | `gI` | Go to implementation |
 | `K` | Hover documentation |
-| `<leader>ca` | Code action / quick fix |
-| `<leader>rn` | Rename symbol |
-| `<leader>d` | Open Problems view |
-| `[d` | Previous diagnostic |
-| `]d` | Next diagnostic |
 | `[h` | Previous git hunk |
 | `]h` | Next git hunk |
-
-### Window Management
-
-| Key | Action |
-|---|---|
+| `[d` | Previous diagnostic |
+| `]d` | Next diagnostic |
 | `<C-h>` | Focus left editor group |
 | `<C-j>` | Focus below editor group |
 | `<C-k>` | Focus above editor group |
 | `<C-l>` | Focus right editor group |
-| `<leader>wv` | Split editor right |
-| `<leader>ws` | Split editor down |
-| `<leader>ww` | Focus next editor group |
-| `<leader>wd` | Close editors in current group |
-| `<leader>w` | Save file |
-| `<leader>q` | Close active editor |
-| `<leader>qq` | Close VS Code window |
 
-## Non-Editor UI Mappings (`keybindings.json`)
+## Native VS Code Keybindings
 
-These exist because VSCodeVim mappings do not apply in all UI contexts.
+These are in `keybindings.json`.
 
-### Sidebar / Auxiliary Bar Control
+### Which Key Entry Points
+
+| Key | When | Action |
+|---|---|---|
+| `Space` | Vim normal mode | Show Which Key |
+| `Space` | Vim visual mode | Show Which Key |
+| `Space` | Empty editor group | Show Which Key |
+| `Space` | Notebook command mode | Show Which Key |
+| `Space` | Sidebar, auxiliary bar, or panel focus | Show Which Key |
+| `Space` | Markdown preview | Show Which Key |
+| `Space` | Which Key visible | Trigger the `Space` menu item |
+
+### Copilot Manual Trigger
+
+| Key | When | Action |
+|---|---|---|
+| `Ctrl+Space` | Vim insert mode with Copilot active | Trigger inline suggestion |
+
+Copilot automatic inline completions are disabled. Use `Ctrl+Space` when you explicitly want a suggestion.
+
+### Sidebar And List Behavior
 
 | Key | When | Action |
 |---|---|---|
 | `Esc` | Sidebar or auxiliary bar focused | Return focus to editor |
 | `Ctrl+C` | Sidebar or auxiliary bar focused | Return focus to editor |
-| `Space ...` | Empty editor group focused | Use leader-style chords without VSCodeVim editor focus |
-| `Space Space` | Empty editor group focused | Quick Open |
-| `Space ff` | Empty editor group focused | Quick Open |
-| `Space fr` | Empty editor group focused | Open Recent |
-| `Space s` | Empty editor group focused | Toggle sidebar visibility |
-| `Space ss` | Empty editor group focused | Focus SQL Server Object Explorer |
-| `Space sq` | Empty editor group focused | New SQL query |
-| `Space sg` | Empty editor group focused | Find in files |
-| `Space sc` | Empty editor group focused | Command Palette / Commands |
-| `Space bb` | Empty editor group focused | Show editors (MRU) |
-| `Space e` | Empty editor group focused | Focus Explorer |
-| `Space gg` | Empty editor group focused | Focus Source Control view |
-| `Space ai` | Empty editor group focused | Open Copilot Chat |
-| `Space us` | Empty editor group focused | Toggle sidebar visibility |
-| `Space uv` | Empty editor group focused | Toggle auxiliary bar |
-| `Space um` | Empty editor group focused | Toggle menu bar |
-| `Space d` | Empty editor group focused | Open Problems view |
-| `Space qq` | Empty editor group focused | Close VS Code window |
-| `Space wv` | Empty editor group focused | Split editor right |
-| `Space ws` | Empty editor group focused | Split editor down |
-| `Space e` | Sidebar focused | Toggle sidebar |
-| `Space s` | Sidebar focused | Toggle sidebar |
-| `Space g` | Sidebar focused | Toggle sidebar |
-| `Space c` | Sidebar focused | Toggle sidebar |
-| `Space c` | Auxiliary bar focused | Toggle auxiliary bar |
-| `Space na` | Notebook command mode | Run all notebook cells |
-| `Space nr` | Notebook command mode | Run current notebook cell |
-| `Space ni` | Notebook command mode | Interrupt notebook kernel |
-| `Space nk` | Notebook command mode | Open notebook kernel picker |
-
-### Vim-like List Navigation
-
-| Key | When | Action |
-|---|---|---|
 | `j` | List focused, not input | Move down |
 | `k` | List focused, not input | Move up |
 | `h` | List focused, not input | Collapse |
 | `l` | List focused, not input | Expand |
 
-## Notes
+### Existing Overrides
 
-- This is a VSCodeVim-first setup inspired by LazyVim, not a 1:1 Neovim replica.
-- Sidebar/panel and empty-editor behavior are split between `vim.normalModeKeyBindingsNonRecursive` and `keybindings.json` by design, because VSCodeVim only owns key handling while an editor is active.
-- Notebook leader behavior is split the same way: `vim.normalModeKeyBindingsNonRecursive` covers a cell editor in normal mode, while `keybindings.json` covers notebook command mode (`Esc` out of the cell, then use the same chord).
+| Key | Action |
+|---|---|
+| `Alt+Right` | Show next inline suggestion |
+| `Ctrl+Shift+Enter` | Copilot generate |
+| `Ctrl+Enter` | Unbound from Copilot generate |
+| `Alt+Escape` | Clear interactive input / quit notebook edit depending on context |
+
+## Maintenance Notes
+
+- Do not add direct `Space ...` chords unless there is a concrete reason. They can reintroduce leader-menu delay.
+- Prefer adding leader commands to `whichkey.bindings` in `settings.json`.
+- Prefer native `keybindings.json` entries only for contexts where VSCodeVim cannot see the keypress, such as sidebars, panels, notebooks outside cell edit mode, previews, or an empty editor group.
+- Keep Copilot manual-first unless explicitly changing the editing philosophy.
+- After edits, validate with `python3 -m json.tool vscode/.config/Code/User/settings.json`, validate `keybindings.json` as JSONC, and run `stow -nv vscode`.

@@ -25,6 +25,17 @@
         "when": "editorTextFocus && github.copilot.activated"
     },
     {
+        "key": "ctrl+space",
+        "command": "editor.action.inlineSuggest.trigger",
+        "when": "editorTextFocus && github.copilot.activated && vim.active && vim.mode == 'Insert'"
+    },
+    {
+        "key": "space",
+        "command": "whichkey.triggerKey",
+        "args": " ",
+        "when": "whichkeyVisible"
+    },
+    {
         "key": "alt+escape",
         "command": "interactive.input.clear",
         "when": "isCompositeNotebook && !LinkedEditingInputVisible && !accessibilityHelpWidgetVisible && !breakpointWidgetVisible && !editorHasMultipleSelections && !editorHasSelection && !editorHoverVisible && !exceptionWidgetVisible && !findWidgetVisible && !inSnippetMode && !inlineChatVisible && !isComposing && !markersNavigationVisible && !notebookEditorFocused && !notificationToastsVisible && !parameterHintsVisible && !renameInputVisible && !selectionAnchorSet && !suggestWidgetVisible"
@@ -67,42 +78,52 @@
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "editorTextFocus && vim.active && vim.mode == 'Normal' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode"
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "editorTextFocus && vim.active && vim.mode == 'Visual' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode"
+        "when": "editorTextFocus && vim.active && vim.mode == 'Visual' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "editorTextFocus && vim.active && vim.mode == 'VisualLine' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode"
+        "when": "editorTextFocus && vim.active && vim.mode == 'VisualLine' && !suggestWidgetVisible && !renameInputVisible && !inSnippetMode && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus"
+        "when": "activeEditorGroupEmpty && !inputFocus && !sideBarFocus && !panelFocus && !auxiliaryBarFocus && !terminalFocus && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "notebookEditorFocused && !inputFocus"
+        "when": "notebookEditorFocused && !inputFocus && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "sideBarFocus && !inputFocus"
+        "when": "sideBarFocus && !inputFocus && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "auxiliaryBarFocus && !inputFocus"
+        "when": "auxiliaryBarFocus && !inputFocus && !whichkeyVisible"
     },
     {
         "key": "space",
         "command": "whichkey.show",
-        "when": "panelFocus && !inputFocus"
+        "when": "panelFocus && !inputFocus && !whichkeyVisible"
+    },
+    {
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "activeWebviewPanelId == 'markdown.preview' && !whichkeyVisible"
+    },
+    {
+        "key": "space",
+        "command": "whichkey.show",
+        "when": "activeCustomEditorId == 'vscode.markdown.preview.editor' && !whichkeyVisible"
     },
     {
         "key": "j",
