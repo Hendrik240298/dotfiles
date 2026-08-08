@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+service=voxtype.service
+state_file="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/voxtype/state"
+
+json() {
+  alt=$1
+  class=$2
+  tooltip=$3
+
+  printf '{"text":"","alt":"%s","class":"%s","tooltip":"%s"}\n' "$alt" "$class" "$tooltip"
+}
+
+if ! systemctl --user is-active --quiet "$service"; then
+  json disabled disabled "Voxtype daemon stopped. Click to start."
+  exit 0
+fi
+
+state=idle
+if [ -f "$state_file" ]; then
+  state=$(tr -d '\n' < "$state_file")
+fi
+
+case "$state" in
+  recording)
+    json recording recording "Voxtype recording. Click to stop daemon."
+    ;;
+  transcribing)
+    json transcribing transcribing "Voxtype transcribing. Click to stop daemon."
+    ;;
+  *)
+    json idle idle "Voxtype daemon running. Click to stop for gaming."
+    ;;
+esac

@@ -104,6 +104,10 @@ These mappings are defined in `whichkey.bindings`.
 | Key | Action |
 |---|---|
 | `<leader>ff` | Find file / Quick Open |
+| `<leader>fp` | New Python file |
+| `<leader>fm` | New Markdown file |
+| `<leader>fs` | New SQL file |
+| `<leader>fR` | Rename active file |
 | `<leader>fr` | Open Recent |
 
 ### Git

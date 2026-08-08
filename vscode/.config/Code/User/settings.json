@@ -10,7 +10,7 @@
     "git.confirmSync": false,
     "git.autofetch": true,
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "plaintext": false,
         "markdown": true,
         "scminput": false,
@@ -364,6 +364,42 @@
                     "name": "Find file",
                     "type": "command",
                     "command": "workbench.action.quickOpen"
+                },
+                {
+                    "key": "p",
+                    "name": "New Python file",
+                    "type": "command",
+                    "command": "workbench.action.files.newUntitledFile",
+                    "args": {
+                        "languageId": "python"
+                    }
+                },
+                {
+                    "key": "m",
+                    "name": "New Markdown file",
+                    "type": "command",
+                    "command": "workbench.action.files.newUntitledFile",
+                    "args": {
+                        "languageId": "markdown"
+                    }
+                },
+                {
+                    "key": "s",
+                    "name": "New SQL file",
+                    "type": "command",
+                    "command": "workbench.action.files.newUntitledFile",
+                    "args": {
+                        "languageId": "sql"
+                    }
+                },
+                {
+                    "key": "R",
+                    "name": "Rename active file",
+                    "type": "commands",
+                    "commands": [
+                        "workbench.files.action.showActiveFileInExplorer",
+                        "renameFile"
+                    ]
                 },
                 {
                     "key": "r",
@@ -723,5 +759,9 @@
             "id": "ROOT"
         }
     ],
-    "workbench.colorTheme": "Tokyo Night"
+    "workbench.colorTheme": "Tokyo Night",
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.pdf": "default"
+    }
 }

@@ -1,0 +1,161 @@
+" Obsidian Vimrc Support draft
+" Goal: keep Obsidian close to the VS Code LazyVim-style keymap.
+" Install the Obsidian community plugin "Vimrc Support" and enable core Vim mode.
+" This file is a draft for a vault-root .obsidian.vimrc.
+
+" Core Vim feel
+set clipboard=unnamed
+
+" Make wrapped Markdown lines behave naturally.
+nmap j gj
+nmap k gk
+
+" Space leader, matching VS Code.
+" Vimrc Support may require unmapping Space before using Space chords.
+unmap <Space>
+let mapleader = " "
+
+" -----------------------------------------------------------------------------
+" Root leader commands
+" VS Code: <leader><leader> quick open, <leader>/ find in file, <leader>e explorer
+" Obsidian: <leader><leader> opens the Quick Switcher / Ctrl+O fuzzy finder.
+" -----------------------------------------------------------------------------
+
+exmap quickopen obcommand switcher:open
+nmap <leader><leader> :quickopen<CR>
+
+" Verify command ID in Obsidian if this does not work.
+exmap findfile obcommand editor:open-search
+nmap <leader>/ :findfile<CR>
+
+exmap explorer obcommand file-explorer:open
+nmap <leader>e :explorer<CR>
+
+" -----------------------------------------------------------------------------
+" Buffers / tabs
+" VS Code: <leader>b... buffer/editor actions
+" Obsidian equivalent: tabs + quick switcher.
+" -----------------------------------------------------------------------------
+
+nmap <leader>bb :quickopen<CR>
+
+exmap newtab obcommand workspace:new-tab
+nmap <leader>bn :newtab<CR>
+
+exmap nexttab obcommand workspace:next-tab
+exmap prevtab obcommand workspace:previous-tab
+nmap gt :nexttab<CR>
+nmap gT :prevtab<CR>
+
+" -----------------------------------------------------------------------------
+" Files
+" VS Code: <leader>ff find file, <leader>fr open recent
+" -----------------------------------------------------------------------------
+
+nmap <leader>ff :quickopen<CR>
+
+" Optional: depends on installed Obsidian plugins / command availability.
+" exmap recent obcommand recent-files-obsidian:open-recent-files
+" nmap <leader>fr :recent<CR>
+
+" -----------------------------------------------------------------------------
+" Search / command palette
+" VS Code: <leader>sg find in files, <leader>sc command palette, <leader>sb sidebar
+" -----------------------------------------------------------------------------
+
+exmap globalsearch obcommand global-search:open
+nmap <leader>sg :globalsearch<CR>
+
+exmap commands obcommand command-palette:open
+nmap <leader>sc :commands<CR>
+
+exmap leftsidebar obcommand app:toggle-left-sidebar
+nmap <leader>sb :leftsidebar<CR>
+
+" -----------------------------------------------------------------------------
+" Windows / panes
+" VS Code: <leader>wv, <leader>ws, <leader>ww, <leader>wd, <leader>wS
+" -----------------------------------------------------------------------------
+
+exmap splitv obcommand workspace:split-vertical
+exmap splith obcommand workspace:split-horizontal
+nmap <leader>wv :splitv<CR>
+nmap <leader>ws :splith<CR>
+
+" Keep direct mnemonic split bindings from the VS Code setup.
+nmap <leader>vs :splitv<CR>
+nmap <leader>hs :splith<CR>
+
+" Verify command IDs if pane focus mappings do not work in your Obsidian version.
+exmap nextpane obcommand workspace:next-tab
+nmap <leader>ww :nextpane<CR>
+
+exmap closetab obcommand workspace:close
+nmap <leader>wd :closetab<CR>
+
+exmap savefile obcommand editor:save-file
+nmap <leader>wS :savefile<CR>
+
+" -----------------------------------------------------------------------------
+" Quit / close
+" VS Code: <leader>qq close window, <leader>qe close active editor
+" Obsidian equivalent: close current tab. Full app quit is intentionally omitted.
+" -----------------------------------------------------------------------------
+
+nmap <leader>qe :closetab<CR>
+
+" -----------------------------------------------------------------------------
+" UI
+" VS Code: <leader>us sidebar, <leader>uv auxiliary/right sidebar
+" -----------------------------------------------------------------------------
+
+nmap <leader>us :leftsidebar<CR>
+
+exmap rightsidebar obcommand app:toggle-right-sidebar
+nmap <leader>uv :rightsidebar<CR>
+
+" -----------------------------------------------------------------------------
+" Obsidian navigation history
+" -----------------------------------------------------------------------------
+
+exmap back obcommand app:go-back
+exmap forward obcommand app:go-forward
+nmap <C-o> :back<CR>
+nmap <C-i> :forward<CR>
+
+" -----------------------------------------------------------------------------
+" Markdown / note navigation
+" Vimrc Support already provides some useful defaults:
+" [[ / ]] previous/next heading, gl/gL next/previous link, gf open link/file.
+" These mappings make folding closer to Vim.
+" -----------------------------------------------------------------------------
+
+exmap togglefold obcommand editor:toggle-fold
+nmap za :togglefold<CR>
+nmap zo :togglefold<CR>
+nmap zc :togglefold<CR>
+
+exmap foldall obcommand editor:fold-all
+exmap unfoldall obcommand editor:unfold-all
+nmap zM :foldall<CR>
+nmap zR :unfoldall<CR>
+
+" -----------------------------------------------------------------------------
+" Obsidian-specific useful leader commands
+" These have no direct VS Code equivalent but fit the same leader-key style.
+" -----------------------------------------------------------------------------
+
+exmap backlinks obcommand backlinks:open
+nmap <leader>sl :backlinks<CR>
+
+exmap graph obcommand graph:open
+nmap <leader>ug :graph<CR>
+
+" -----------------------------------------------------------------------------
+" Placeholders from VS Code that do not map cleanly to core Obsidian
+" -----------------------------------------------------------------------------
+
+" <leader>a...  AI: depends on the AI plugin you use in Obsidian.
+" <leader>c...  Code actions/refactor: not relevant for standard Markdown editing.
+" <leader>g...  Git: depends on an Obsidian Git plugin command IDs.
+" <leader>r...  Rename: Obsidian has note rename workflows, but map after verifying ID.

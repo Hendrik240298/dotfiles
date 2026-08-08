@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+service=voxtype.service
+
+notify_waybar() {
+  pkill -RTMIN+7 waybar >/dev/null 2>&1 || true
+}
+
+if systemctl --user is-active --quiet "$service"; then
+  voxtype record cancel >/dev/null 2>&1 || true
+  systemctl --user stop "$service"
+  rc=$?
+else
+  systemctl --user start "$service"
+  rc=$?
+fi
+
+notify_waybar
+exit "$rc"

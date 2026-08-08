@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "gemma4:e2b-50k": {
+          "name": "Gemma 4 E2B 50k (local)",
+          "limit": {
+            "context": 50000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+  "experimental": {
+    "disable_paste_summary": true
+  }
+}

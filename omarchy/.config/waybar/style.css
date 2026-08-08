@@ -11,6 +11,15 @@
   font-size: 12px;
 }
 
+window#waybar {
+  background: transparent;
+}
+
+window#waybar > box {
+  background-color: @background;
+  border-radius: 8px;
+}
+
 .modules-left {
   margin-left: 8px;
 }
@@ -97,11 +106,16 @@ tooltip {
 
 #custom-voxtype {
   min-width: 12px;
-  margin: 0 0 0 7.5px;
+  margin: 0 7.5px;
 }
 
-#custom-voxtype.recording {
+#custom-voxtype.recording,
+#custom-voxtype.disabled {
   color: #a55555;
+}
+
+#custom-voxtype.transcribing {
+  color: #d79921;
 }
 
 #custom-weather {

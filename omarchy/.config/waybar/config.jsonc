@@ -4,6 +4,9 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
+  "margin-top": 4,
+  "margin-left": 8,
+  "margin-right": 8,
   "modules-left": ["custom/omarchy", "hyprland/workspaces"],
   "modules-center": ["clock", "custom/weather", "custom/update", "custom/voxtype", "custom/screenrecording-indicator", "custom/idle-indicator", "custom/notification-silencing-indicator"],
   "modules-right": [
@@ -176,17 +179,21 @@
     "return-type": "json"
   },
   "custom/voxtype": {
-    "exec": "omarchy-voxtype-status",
+    "exec": "$HOME/.local/bin/omarchy-voxtype-status",
+    "interval": 2,
+    "signal": 7,
     "return-type": "json",
     "format": "{icon}",
     "format-icons": {
-      "idle": "",
+      "idle": "󰍬",
       "recording": "󰍬",
-      "transcribing": "󰔟"
+      "transcribing": "󰔟",
+      "disabled": "󰍭"
     },
     "tooltip": true,
     "on-click-right": "omarchy-voxtype-config",
-    "on-click": "omarchy-voxtype-model"
+    "on-click-middle": "omarchy-voxtype-model",
+    "on-click": "$HOME/.local/bin/omarchy-toggle-voxtype-daemon"
   },
   "tray": {
     "icon-size": 12,
