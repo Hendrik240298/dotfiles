@@ -1,0 +1,17 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Hendrik Fischer"
+            }
+        ],
+        "Description": "Bind numbered desktops to the primary output and desktop 1 to the secondary output",
+        "Icon": "preferences-system-windows-script-test",
+        "Id": "primary-output-workspaces",
+        "License": "MIT",
+        "Name": "Primary Output Workspaces",
+        "Version": "1.0.1"
+    },
+    "X-Plasma-API": "javascript"
+}
