@@ -1,9 +1,9 @@
 /* @settings
-name: Deep Fjord
-id: deep-fjord
+name: Hendrik's Theme
+id: hendriks-theme
 settings:
   -
-    id: deep-fjord-readable-line-length
+    id: hendriks-theme-readable-line-length
     title: Readable line length
     type: variable-number-slider
     default: 760
@@ -16,16 +16,16 @@ settings:
 body.theme-dark {
   --background-primary: #111722;
   --background-primary-alt: #0c1119;
-  --background-secondary: #171f2b;
-  --background-secondary-alt: #101722;
-  --background-modifier-border: #2a3748;
-  --background-modifier-border-hover: #43566d;
-  --background-modifier-hover: #202c3b;
-  --background-modifier-active-hover: #29394d;
+  --background-secondary: #1a2028;
+  --background-secondary-alt: #141a22;
+  --background-modifier-border: #34485c;
+  --background-modifier-border-hover: #506a84;
+  --background-modifier-hover: #252f3a;
+  --background-modifier-active-hover: #303f50;
   --background-modifier-form-field: #0d131d;
   --background-modifier-form-field-highlighted: #151e2b;
   --background-modifier-box-shadow: rgba(0, 0, 0, 0.28);
-  --text-normal: #bfc1b8;
+  --text-normal: #c4c9c8 !important;
   --text-muted: #91a0b3;
   --text-faint: #66768b;
   --text-on-accent: #07121d;
@@ -144,14 +144,14 @@ body {
   --font-interface: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
   --font-text: "Fira Sans", "Noto Sans", sans-serif;
   --font-monospace: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
-  --font-text-size: 20px !important;
+  --font-text-size: 18px !important;
   --font-ui-smaller: 12px;
   --font-ui-small: 14px;
   --font-ui-medium: 16px;
   --font-ui-large: 18px;
   --font-ui-larger: 22px;
   --line-height-normal: 1.66;
-  --file-line-width: var(--deep-fjord-readable-line-length, 760px);
+  --file-line-width: var(--hendriks-theme-readable-line-length, 760px);
   --radius-s: 0;
   --radius-m: 0;
   --radius-l: 0;
@@ -173,6 +173,7 @@ body {
 }
 
 .workspace-tab-header {
+  border-right: 1px solid var(--background-modifier-border);
   padding: 0 8px;
 }
 
@@ -184,12 +185,43 @@ body {
 }
 
 .workspace-tab-header.is-active {
-  box-shadow: inset 0 -2px 0 var(--interactive-accent);
+  background: color-mix(in srgb, var(--interactive-accent) 9%, var(--background-primary));
+  border: 0;
+  border-radius: 0 !important;
+  box-shadow: inset 0 2px 0 var(--interactive-accent);
+  margin-top: 3px;
 }
 
 .workspace-tab-header.is-active::before,
 .workspace-tab-header.is-active::after {
   display: none;
+}
+
+.workspace-leaf-content {
+  box-shadow: inset 0 0 0 1px var(--background-modifier-border);
+}
+
+.workspace-leaf.mod-active .workspace-leaf-content {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--interactive-accent) 58%, var(--background-modifier-border-hover));
+}
+
+.workspace-leaf.mod-active {
+  position: relative;
+  z-index: 10;
+}
+
+.workspace-leaf.mod-active::after {
+  border: 1px solid color-mix(in srgb, var(--interactive-accent) 58%, var(--background-modifier-border-hover));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 11;
+}
+
+.workspace-leaf.mod-active .workspace-tab-header-container,
+.workspace-leaf.mod-active .view-header {
+  border-color: color-mix(in srgb, var(--interactive-accent) 58%, var(--background-modifier-border-hover));
 }
 
 .mod-left-split .workspace-tab-header-container,
@@ -261,6 +293,27 @@ body {
 .markdown-preview-sizer,
 .markdown-source-view.mod-cm6 .cm-content {
   font-size: var(--font-text-size) !important;
+}
+
+body.theme-dark .markdown-preview-view,
+body.theme-dark .markdown-preview-sizer,
+body.theme-dark .markdown-source-view.mod-cm6 .cm-content,
+body.theme-dark .markdown-source-view.mod-cm6 .cm-line {
+  color: var(--text-normal) !important;
+}
+
+body.theme-dark .inline-title {
+  color: var(--text-normal) !important;
+}
+
+body.theme-dark .markdown-preview-view h1,
+body.theme-dark .markdown-preview-view h2,
+body.theme-dark .markdown-preview-view h3,
+body.theme-dark .markdown-preview-view h4,
+body.theme-dark .markdown-preview-view h5,
+body.theme-dark .markdown-preview-view h6,
+body.theme-dark .markdown-source-view.mod-cm6 .cm-header {
+  color: var(--text-normal) !important;
 }
 
 .markdown-preview-view,
@@ -553,15 +606,32 @@ li[data-task="/"] > p > input:checked::after {
   border-radius: 0;
 }
 
+.prompt {
+  left: 50% !important;
+  margin: 0 !important;
+  position: fixed !important;
+  top: 30vh !important;
+  transform: translateX(-50%) !important;
+}
+
 .prompt-input,
 .search-input-container input {
   font-family: var(--font-text);
+  font-size: 18px;
   letter-spacing: 0;
 }
 
 .suggestion-item,
 .suggestion-item-title {
   font-family: var(--font-text);
+  font-size: 18px;
+}
+
+.prompt-instructions,
+.prompt-instruction,
+.prompt-instruction-command {
+  font-family: var(--font-text);
+  font-size: 15px;
 }
 
 .cm-gutters {
@@ -580,6 +650,10 @@ li[data-task="/"] > p > input:checked::after {
   background: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
 }
 
+.cm-active .cm-activeLine {
+  box-shadow: inset 2px 0 0 var(--interactive-accent);
+}
+
 .cm-active .cm-activeLineGutter {
   color: var(--text-accent);
 }
@@ -593,6 +667,23 @@ li[data-task="/"] > p > input:checked::after {
 .cm-dropCursor {
   border-left-color: var(--interactive-accent) !important;
   border-left-width: 2px;
+  opacity: 1;
+}
+
+.cm-foldGutter .cm-gutterElement {
+  color: var(--text-faint);
+}
+
+.cm-foldGutter .cm-gutterElement:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-accent);
+}
+
+.cm-foldPlaceholder {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border-hover);
+  border-radius: 0;
+  color: var(--text-accent);
 }
 
 .metadata-container {
