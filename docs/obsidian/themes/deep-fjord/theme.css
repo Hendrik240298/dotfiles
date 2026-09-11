@@ -73,6 +73,8 @@ body.theme-dark {
   --table-row-alt-background: rgba(31, 44, 59, 0.42);
   --titlebar-background: #0c1119;
   --titlebar-background-focused: #0c1119;
+  --text-selection: #2a6677;
+  --text-highlight-bg: #574b2d;
 }
 
 body.theme-light {
@@ -134,20 +136,22 @@ body.theme-light {
   --table-row-alt-background: rgba(214, 224, 228, 0.48);
   --titlebar-background: #e9edef;
   --titlebar-background-focused: #e9edef;
+  --text-selection: #9bd5df;
+  --text-highlight-bg: #f3df9b;
 }
 
 body {
-  --font-interface: Inter, "Noto Sans", sans-serif;
-  --font-text: "Iowan Old Style", "Palatino Linotype", "Noto Serif", Georgia, serif;
-  --font-monospace: "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", "JetBrains Mono", monospace;
+  --font-interface: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
+  --font-text: "Fira Sans", "Noto Sans", sans-serif;
+  --font-monospace: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
   --font-text-size: 17px;
   --line-height-normal: 1.66;
   --file-line-width: var(--deep-fjord-readable-line-length, 760px);
-  --radius-s: 4px;
-  --radius-m: 6px;
-  --radius-l: 8px;
-  --input-radius: 5px;
-  --tab-radius: 5px 5px 0 0;
+  --radius-s: 0;
+  --radius-m: 0;
+  --radius-l: 0;
+  --input-radius: 0;
+  --tab-radius: 0;
   --tab-outline-color: transparent;
   --nav-item-color: var(--text-muted);
   --nav-item-color-hover: var(--text-normal);
@@ -170,7 +174,8 @@ body {
 .workspace-tab-header-inner {
   padding: 0 5px;
   font-size: 12px;
-  font-weight: 560;
+  font-weight: 590;
+  letter-spacing: 0.01em;
 }
 
 .workspace-tab-header.is-active {
@@ -185,6 +190,14 @@ body {
 .workspace-leaf-resize-handle,
 .workspace-split.mod-vertical > .workspace-leaf-resize-handle {
   background-color: var(--background-modifier-border);
+}
+
+.workspace-split.mod-vertical > .workspace-leaf-resize-handle {
+  width: 1px;
+}
+
+.workspace-split.mod-horizontal > .workspace-leaf-resize-handle {
+  height: 1px;
 }
 
 .mod-left-split .workspace-tab-header-container,
@@ -209,20 +222,21 @@ body {
 
 .nav-folder-title,
 .nav-file-title {
-  border-radius: 4px;
-  margin: 1px 5px;
-  padding: 3px 7px;
+  border-radius: 0;
+  margin: 2px 6px;
+  padding: 5px 9px;
 }
 
 .nav-folder-title {
   color: var(--text-normal);
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.015em;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .nav-file-title {
-  font-size: 13px;
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 .nav-file-title.is-active {
@@ -243,6 +257,7 @@ body {
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 600;
+  letter-spacing: 0.025em;
 }
 
 .markdown-reading-view,
@@ -279,7 +294,6 @@ body {
 .markdown-preview-view h6 {
   font-weight: 680;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
 }
 
 .markdown-preview-view h4 {
@@ -337,14 +351,14 @@ body {
 .markdown-rendered code,
 .cm-inline-code {
   border: 1px solid var(--background-modifier-border);
-  border-radius: 4px;
+  border-radius: 0;
   font-size: 0.88em;
   padding: 0.08em 0.3em;
 }
 
 .markdown-rendered pre {
   border: 1px solid var(--background-modifier-border);
-  border-radius: 7px;
+  border-radius: 0;
   padding: 1em 1.2em;
 }
 
@@ -360,7 +374,7 @@ body {
 .markdown-rendered table {
   border: 1px solid var(--background-modifier-border);
   border-collapse: separate;
-  border-radius: 6px;
+  border-radius: 0;
   border-spacing: 0;
   overflow: hidden;
 }
@@ -378,7 +392,7 @@ body {
 }
 
 input[type="checkbox"] {
-  border-radius: 3px;
+  border-radius: 0;
   border-color: var(--text-faint);
 }
 
@@ -387,9 +401,45 @@ input[type="checkbox"]:checked {
   border-color: var(--interactive-accent);
 }
 
+/* Tasks plugin custom statuses expose their marker through checked data-task inputs. */
+input[data-task="?"]:checked,
+li[data-task="?"] > input:checked,
+li[data-task="?"] > p > input:checked {
+  --checkbox-marker-color: transparent;
+  background-color: var(--interactive-warn);
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"%3E%3Cpath fill="white" fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215c0 1.344-.665 2.288-1.79 2.973c-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712c1.03-.632 1.397-1.135 1.397-2.028c0-.979-.758-1.698-1.926-1.698c-1.009 0-1.71.529-1.938 1.402c-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09c0-.618-.473-1.092-1.095-1.092c-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14Z"%2F%3E%3C%2Fsvg%3E');
+  background-position: 50% 50%;
+  background-size: 200% 90%;
+  border-color: var(--interactive-warn);
+}
+
+body.theme-dark input[data-task="?"]:checked,
+body.theme-dark li[data-task="?"] > input:checked,
+body.theme-dark li[data-task="?"] > p > input:checked {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"%3E%3Cpath fill="%230c1119" fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215c0 1.344-.665 2.288-1.79 2.973c-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712c1.03-.632 1.397-1.135 1.397-2.028c0-.979-.758-1.698-1.926-1.698c-1.009 0-1.71.529-1.938 1.402c-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09c0-.618-.473-1.092-1.095-1.092c-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14Z"%2F%3E%3C%2Fsvg%3E');
+}
+
+input[data-task="/"]:checked,
+li[data-task="/"] > input:checked,
+li[data-task="/"] > p > input:checked {
+  --checkbox-marker-color: transparent;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: linear-gradient(to right, var(--interactive-accent) 0 50%, var(--background-primary-alt) 50% 100%) !important;
+  border: 1px solid var(--interactive-accent);
+  border-radius: 0;
+}
+
+input[data-task="/"]:checked::after,
+li[data-task="/"] > input:checked::after,
+li[data-task="/"] > p > input:checked::after {
+  content: none !important;
+  display: none !important;
+}
+
 .tag {
   border: 0;
-  border-radius: 4px;
+  border-radius: 0;
   font-family: var(--font-interface);
   font-size: 0.78em;
   font-weight: 620;
@@ -399,7 +449,7 @@ input[type="checkbox"]:checked {
 .callout {
   border: 1px solid color-mix(in srgb, var(--callout-color) 45%, var(--background-modifier-border));
   border-left-width: 3px;
-  border-radius: 6px;
+  border-radius: 0;
   box-shadow: none;
   padding: 0.9em 1em;
 }
@@ -407,8 +457,7 @@ input[type="checkbox"]:checked {
 .callout-title {
   font-size: 0.84em;
   font-weight: 720;
-  letter-spacing: 0.035em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
 .callout-content {
@@ -428,6 +477,76 @@ input[type="checkbox"]:checked {
 
 .menu-item-title {
   font-size: 13px;
+}
+
+.prompt,
+.suggestion-container {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+}
+
+.prompt-input,
+.search-input-container input {
+  font-family: var(--font-monospace);
+  letter-spacing: -0.015em;
+}
+
+.cm-gutters {
+  background: var(--background-primary-alt);
+  border-right: 1px solid var(--background-modifier-border);
+}
+
+.cm-gutterElement {
+  color: var(--text-faint);
+  font-family: var(--font-monospace);
+  font-size: 0.82em;
+}
+
+.cm-active .cm-activeLine,
+.cm-active .cm-activeLineGutter {
+  background: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
+}
+
+.cm-active .cm-activeLineGutter {
+  color: var(--text-accent);
+}
+
+.cm-selectionBackground,
+.cm-editor .cm-selectionLayer .cm-selectionBackground {
+  background: var(--text-selection) !important;
+}
+
+.cm-cursor,
+.cm-dropCursor {
+  border-left-color: var(--interactive-accent) !important;
+  border-left-width: 2px;
+}
+
+.metadata-container {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+  font-family: var(--font-monospace);
+  font-size: 0.8em;
+}
+
+.metadata-property {
+  border-bottom-color: var(--background-modifier-border);
+}
+
+.metadata-property-key {
+  color: var(--text-faint);
+  letter-spacing: 0.01em;
+}
+
+kbd {
+  background: var(--background-primary-alt);
+  border: 1px solid var(--background-modifier-border-hover);
+  border-bottom-width: 2px;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-family: var(--font-monospace);
+  font-size: 0.78em;
 }
 
 .status-bar {
