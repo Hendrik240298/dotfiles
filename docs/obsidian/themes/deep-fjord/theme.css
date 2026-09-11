@@ -25,7 +25,7 @@ body.theme-dark {
   --background-modifier-form-field: #0d131d;
   --background-modifier-form-field-highlighted: #151e2b;
   --background-modifier-box-shadow: rgba(0, 0, 0, 0.28);
-  --text-normal: #d9e1ea;
+  --text-normal: #bfc1b8;
   --text-muted: #91a0b3;
   --text-faint: #66768b;
   --text-on-accent: #07121d;
@@ -41,7 +41,7 @@ body.theme-dark {
   --scrollbar-bg: transparent;
   --scrollbar-thumb-bg: #334458;
   --scrollbar-active-thumb-bg: #526b84;
-  --h1-color: #dce7f2;
+  --h1-color: #d1dbe5;
   --h2-color: #a9d9e4;
   --h3-color: #c5d7e7;
   --h4-color: #b5c7d7;
@@ -59,8 +59,8 @@ body.theme-dark {
   --code-string: #bddc94;
   --code-tag: #e29a9f;
   --code-value: #e6bd83;
-  --link-color: #79cddd;
-  --link-color-hover: #a4e3ed;
+  --link-color: #c8a5dc;
+  --link-color-hover: #e4cbf0;
   --link-external-color: #d8b669;
   --link-external-color-hover: #ebce8c;
   --tag-color: #90d2df;
@@ -122,8 +122,8 @@ body.theme-light {
   --code-string: #567528;
   --code-tag: #a54e58;
   --code-value: #925f16;
-  --link-color: #147287;
-  --link-color-hover: #0b5263;
+  --link-color: #765187;
+  --link-color-hover: #59356d;
   --link-external-color: #8d6412;
   --link-external-color-hover: #624500;
   --tag-color: #155e70;
@@ -144,7 +144,12 @@ body {
   --font-interface: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
   --font-text: "Fira Sans", "Noto Sans", sans-serif;
   --font-monospace: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
-  --font-text-size: 17px;
+  --font-text-size: 20px !important;
+  --font-ui-smaller: 12px;
+  --font-ui-small: 14px;
+  --font-ui-medium: 16px;
+  --font-ui-large: 18px;
+  --font-ui-larger: 22px;
   --line-height-normal: 1.66;
   --file-line-width: var(--deep-fjord-readable-line-length, 760px);
   --radius-s: 0;
@@ -173,7 +178,7 @@ body {
 
 .workspace-tab-header-inner {
   padding: 0 5px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 590;
   letter-spacing: 0.01em;
 }
@@ -185,19 +190,6 @@ body {
 .workspace-tab-header.is-active::before,
 .workspace-tab-header.is-active::after {
   display: none;
-}
-
-.workspace-leaf-resize-handle,
-.workspace-split.mod-vertical > .workspace-leaf-resize-handle {
-  background-color: var(--background-modifier-border);
-}
-
-.workspace-split.mod-vertical > .workspace-leaf-resize-handle {
-  width: 1px;
-}
-
-.workspace-split.mod-horizontal > .workspace-leaf-resize-handle {
-  height: 1px;
 }
 
 .mod-left-split .workspace-tab-header-container,
@@ -229,13 +221,13 @@ body {
 
 .nav-folder-title {
   color: var(--text-normal);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   letter-spacing: 0.01em;
 }
 
 .nav-file-title {
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0;
 }
 
@@ -255,7 +247,7 @@ body {
 
 .view-header-title {
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.025em;
 }
@@ -263,6 +255,12 @@ body {
 .markdown-reading-view,
 .markdown-source-view.mod-cm6 .cm-scroller {
   padding-bottom: 12vh;
+}
+
+.markdown-preview-view,
+.markdown-preview-sizer,
+.markdown-source-view.mod-cm6 .cm-content {
+  font-size: var(--font-text-size) !important;
 }
 
 .markdown-preview-view,
@@ -305,19 +303,69 @@ body {
   font-size: 0.82em;
 }
 
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
 .cm-line.HyperMD-header {
+  margin-bottom: 0.8em;
+  padding-bottom: 0.28em;
   padding-top: 0.35em;
+}
+
+.markdown-preview-view h1,
+.cm-line.HyperMD-header-1 {
+  border-bottom: 2px solid var(--interactive-accent);
+  padding-bottom: 0.45em;
+  width: 100%;
+}
+
+.markdown-preview-view h2,
+.cm-line.HyperMD-header-2 {
+  border-bottom: 2px solid var(--background-modifier-border-hover);
+  padding-bottom: 0.45em;
+  width: 100%;
+}
+
+.markdown-preview-view h3,
+.cm-line.HyperMD-header-3 {
+  border-bottom: 1px solid var(--background-modifier-border-hover);
+  padding-bottom: 0.42em;
+  width: 82%;
+}
+
+.markdown-preview-view h4,
+.cm-line.HyperMD-header-4 {
+  border-bottom: 1px dashed var(--background-modifier-border-hover);
+  padding-bottom: 0.38em;
+  width: 64%;
+}
+
+.markdown-preview-view h5,
+.cm-line.HyperMD-header-5 {
+  border-bottom: 1px dotted var(--background-modifier-border-hover);
+  padding-bottom: 0.35em;
+  width: 48%;
+}
+
+.markdown-preview-view h6,
+.cm-line.HyperMD-header-6 {
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 0.32em;
+  width: 32%;
 }
 
 .cm-strong,
 .markdown-rendered strong {
-  color: var(--text-normal);
-  font-weight: 700;
+  color: var(--code-keyword);
+  font-weight: 720;
 }
 
 .cm-em,
 .markdown-rendered em {
-  color: var(--text-muted);
+  color: var(--link-external-color);
 }
 
 .markdown-rendered a,
@@ -326,6 +374,12 @@ body {
   text-decoration: none;
   text-decoration-color: color-mix(in srgb, currentColor 32%, transparent);
   text-underline-offset: 3px;
+}
+
+.markdown-rendered .internal-link,
+.cm-hmd-internal-link {
+  color: var(--link-color);
+  font-weight: 640;
 }
 
 .markdown-rendered a:hover,
@@ -354,6 +408,20 @@ body {
   border-radius: 0;
   font-size: 0.88em;
   padding: 0.08em 0.3em;
+}
+
+.markdown-rendered :not(pre) > code,
+.cm-inline-code {
+  background: color-mix(in srgb, var(--interactive-accent) 16%, var(--background-primary));
+  border-color: var(--background-modifier-border-hover);
+  color: var(--text-accent-hover);
+  font-weight: 560;
+}
+
+.markdown-source-view.mod-cm6 .cm-inline-code {
+  background: color-mix(in srgb, var(--interactive-accent) 16%, var(--background-primary)) !important;
+  border-color: var(--background-modifier-border-hover) !important;
+  color: var(--text-accent-hover) !important;
 }
 
 .markdown-rendered pre {
@@ -476,7 +544,7 @@ li[data-task="/"] > p > input:checked::after {
 }
 
 .menu-item-title {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .prompt,
@@ -487,8 +555,13 @@ li[data-task="/"] > p > input:checked::after {
 
 .prompt-input,
 .search-input-container input {
-  font-family: var(--font-monospace);
-  letter-spacing: -0.015em;
+  font-family: var(--font-text);
+  letter-spacing: 0;
+}
+
+.suggestion-item,
+.suggestion-item-title {
+  font-family: var(--font-text);
 }
 
 .cm-gutters {
@@ -553,7 +626,7 @@ kbd {
   background: var(--background-secondary-alt);
   border-top: 1px solid var(--background-modifier-border);
   color: var(--text-faint);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .status-bar-item.mod-clickable:hover {
