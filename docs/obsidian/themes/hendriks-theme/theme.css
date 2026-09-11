@@ -14,8 +14,8 @@ settings:
 */
 
 body.theme-dark {
-  --background-primary: #111722;
-  --background-primary-alt: #0c1119;
+  --background-primary: #161b22;
+  --background-primary-alt: #11161c;
   --background-secondary: #1a2028;
   --background-secondary-alt: #141a22;
   --background-modifier-border: #34485c;
@@ -144,7 +144,7 @@ body {
   --font-interface: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
   --font-text: "Fira Sans", "Noto Sans", sans-serif;
   --font-monospace: "Noto Sans Mono", "JetBrainsMono Nerd Font", "CaskaydiaCove Nerd Font", monospace;
-  --font-text-size: 18px !important;
+  --font-text-size: 19px !important;
   --font-ui-smaller: 12px;
   --font-ui-small: 14px;
   --font-ui-medium: 16px;
@@ -212,6 +212,8 @@ body {
 
 .workspace-leaf.mod-active::after {
   border: 1px solid color-mix(in srgb, var(--interactive-accent) 58%, var(--background-modifier-border-hover));
+  border-right: 2px solid var(--interactive-accent);
+  box-shadow: 1px 0 0 var(--interactive-accent);
   content: "";
   inset: 0;
   pointer-events: none;
@@ -370,44 +372,44 @@ body.theme-dark .markdown-source-view.mod-cm6 .cm-header {
 
 .markdown-preview-view h1,
 .cm-line.HyperMD-header-1 {
-  border-bottom: 2px solid var(--interactive-accent);
+  border-bottom: 2px solid var(--background-modifier-border-hover);
   padding-bottom: 0.45em;
   width: 100%;
 }
 
 .markdown-preview-view h2,
 .cm-line.HyperMD-header-2 {
-  border-bottom: 2px solid var(--background-modifier-border-hover);
-  padding-bottom: 0.45em;
-  width: 100%;
-}
-
-.markdown-preview-view h3,
-.cm-line.HyperMD-header-3 {
   border-bottom: 1px solid var(--background-modifier-border-hover);
   padding-bottom: 0.42em;
   width: 82%;
 }
 
-.markdown-preview-view h4,
-.cm-line.HyperMD-header-4 {
+.markdown-preview-view h3,
+.cm-line.HyperMD-header-3 {
   border-bottom: 1px dashed var(--background-modifier-border-hover);
   padding-bottom: 0.38em;
   width: 64%;
 }
 
-.markdown-preview-view h5,
-.cm-line.HyperMD-header-5 {
+.markdown-preview-view h4,
+.cm-line.HyperMD-header-4 {
   border-bottom: 1px dotted var(--background-modifier-border-hover);
   padding-bottom: 0.35em;
   width: 48%;
 }
 
-.markdown-preview-view h6,
-.cm-line.HyperMD-header-6 {
+.markdown-preview-view h5,
+.cm-line.HyperMD-header-5 {
   border-bottom: 1px solid var(--background-modifier-border);
   padding-bottom: 0.32em;
   width: 32%;
+}
+
+.markdown-preview-view h6,
+.cm-line.HyperMD-header-6 {
+  border-bottom: 1px dotted var(--background-modifier-border);
+  padding-bottom: 0.3em;
+  width: 22%;
 }
 
 .cm-strong,
