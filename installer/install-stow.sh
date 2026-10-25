@@ -1,3 +1,3 @@
 #!/bin/sh
 
-yay -S --noconfirm --needed stow
+paru -S --noconfirm --needed stow

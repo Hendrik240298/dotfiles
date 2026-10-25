@@ -1,2 +1,2 @@
 #!/bin/sh
-yay -S --noconfirm --needed portfolio-performance-bin
+paru -S --noconfirm --needed portfolio-performance-bin
