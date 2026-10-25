@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Focus or launch Brave
+Exec=/home/hendrik/.local/bin/plasma-launch-or-focus ^brave-browser brave
+Icon=brave-browser
+NoDisplay=true
+StartupNotify=false
+Terminal=false
+X-KDE-Shortcuts=Meta+Shift+B

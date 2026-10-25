@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Focus or launch Dolphin
+Exec=/home/hendrik/.local/bin/plasma-launch-or-focus ^dolphin dolphin
+Icon=org.kde.dolphin
+NoDisplay=true
+StartupNotify=false
+Terminal=false
+X-KDE-Shortcuts=Meta+Shift+F

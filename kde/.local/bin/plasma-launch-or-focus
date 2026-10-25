@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if (( $# < 2 )); then
+    printf 'Usage: %s WINDOW_CLASS COMMAND [ARG ...]\n' "${0##*/}" >&2
+    exit 2
+fi
+
+window_class=$1
+shift
+
+window_id=$(kdotool search --class --limit 1 "$window_class")
+if [[ -n $window_id ]]; then
+    kdotool windowstate --remove minimized "$window_id" windowactivate "$window_id"
+else
+    systemd-run --user --scope --quiet --collect -- "$@" >/dev/null 2>&1 &
+
+    for (( attempt = 0; attempt < 200; attempt++ )); do
+        sleep 0.1
+        window_id=$(kdotool search --class --limit 1 "$window_class")
+        if [[ -n $window_id ]]; then
+            kdotool windowstate --add maximized "$window_id" windowactivate "$window_id"
+            exit 0
+        fi
+    done
+fi

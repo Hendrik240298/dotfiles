@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+set -euo pipefail
+
+app_path=$(awk -F= '$1 == "app-path" { print $2; exit }' /.flatpak-info)
+args=()
+
+for arg in "$@"; do
+    if [[ $arg == /app/* ]]; then
+        arg="${app_path}${arg#/app}"
+    fi
+    args+=("$arg")
+done
+
+# Blender 5.2 moved the Principled BSDF emission sockets. OpenShot 3.5.1
+# generates title scripts using their former indexes, so patch them by name.
+for ((i = 0; i < ${#args[@]}; i++)); do
+    if [[ ${args[i]} == -P && -f ${args[i + 1]:-} ]]; then
+        python3 -c '
+from pathlib import Path
+from sys import argv
+
+path = Path(argv[1])
+path.write_text(path.read_text().replace(
+    "emission_sock = bsdf.inputs[27] if len(bsdf.inputs) > 27 else None\n"
+    "    emission_strength_sock = bsdf.inputs[28] if len(bsdf.inputs) > 28 else None",
+    "emission_sock = bsdf.inputs.get(\"Emission Color\") or bsdf.inputs.get(\"Emission\")\n"
+    "    emission_strength_sock = bsdf.inputs.get(\"Emission Strength\")",
+))
+' "${args[i + 1]}"
+    fi
+done
+
+exec flatpak-spawn --host flatpak run \
+    --filesystem="$HOME/.local/share/flatpak:ro" \
+    --filesystem=/var/lib/flatpak:ro \
+    --command=blender \
+    org.blender.Blender "${args[@]}"

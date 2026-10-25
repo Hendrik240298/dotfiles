@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Focus or launch Todoist
+Exec=/home/hendrik/.local/bin/plasma-launch-or-focus ^todoist flatpak run com.todoist.Todoist
+Icon=com.todoist.Todoist
+NoDisplay=true
+StartupNotify=false
+Terminal=false
+X-KDE-Shortcuts=Meta+Shift+K

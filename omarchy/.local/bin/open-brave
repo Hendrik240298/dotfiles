@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# With kdotool installed, activate an existing Brave window on KDE Plasma.
+if [ "$#" -eq 0 ] && command -v kdotool >/dev/null 2>&1; then
+    if kdotool search --class brave windowactivate; then
+        exit 0
+    fi
+fi
+
+exec brave "$@"

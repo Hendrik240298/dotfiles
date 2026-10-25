@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Focus or launch Obsidian
+Exec=/home/hendrik/.local/bin/plasma-launch-or-focus ^md[.]Obsidian obsidian
+Icon=obsidian
+NoDisplay=true
+StartupNotify=false
+Terminal=false
+X-KDE-Shortcuts=Meta+Shift+O
