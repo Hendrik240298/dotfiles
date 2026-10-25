@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+set -eu
+
+if systemctl --user is-active --quiet voxtype.service; then
+  voxtype record cancel >/dev/null 2>&1 || true
+  systemctl --user stop voxtype.service
+else
+  systemctl --user start voxtype.service
+fi

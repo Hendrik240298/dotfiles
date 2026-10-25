@@ -2,7 +2,7 @@
 ui_scale = 1.20
 
 [bar.default]
-center = [ "workspaces", "spacer_1", "active_window" ]
+center = [ "workspaces", "spacer_1", "active_window", "voxtype" ]
 concave_edge_corners = true
 end = [ "media", "spacer_1", "tray", "notifications", "network", "volume", "session" ]
 margin_edge = 0
@@ -78,6 +78,9 @@ settings_show_advanced = true
     shortcut = "5"
     variant = "destructive"
 
+[plugins]
+enabled = [ "gabedunn/voxtype" ]
+
 [system.monitor]
 gpu_poll_seconds = 2
 
@@ -129,6 +132,13 @@ type = "sysmon"
 [widget.tray]
 capsule = true
 capsule_fill = "on_secondary"
+
+[widget.voxtype]
+type = "gabedunn/voxtype:status"
+
+    [widget.voxtype.actions]
+    left = "exec $HOME/.local/bin/noctalia-toggle-voxtype-daemon"
+    right = "exec voxtype record toggle"
 
 [widget.volume]
 color = "secondary"

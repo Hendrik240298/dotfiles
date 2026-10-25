@@ -11,7 +11,7 @@
 state_file = "auto"
 
 [hotkey]
-# Hotkey is configured in the window manager. Default is Super + Ctrl + X
+# Hotkey is configured in Hyprland: Super + Shift + R (record).
 enabled = false
 
 [audio]
@@ -42,14 +42,16 @@ pause_media = true
 # Model to use for transcription
 # Options: tiny, tiny.en, base, base.en, small, small.en, medium, medium.en, large-v3, large-v3-turbo
 # .en models are English-only but faster and more accurate for English
-# large-v3-turbo is faster than large-v3 with minimal accuracy loss (recommended for GPU)
+# Full large-v3 is selected for an accuracy trial; large-v3-turbo remains installed for fallback.
 # Or provide absolute path to a custom .bin model file
-model = "large-v3-turbo"
+model = "large-v3"
 
-# Language for transcription
-# Use "en" for English, "auto" for auto-detection
+# Auto-detect only German or English for study and technical dictation
 # See: https://github.com/openai/whisper#available-models-and-languages
-language = "auto"
+language = ["de", "en"]
+
+# Short vocabulary hint for DAV study, actuarial work, Python, and Anki
+initial_prompt = "Versicherungsmathematik, Schadenreservierung, Varianz, Rate, actuarial reserving, Run-off, Chain-Ladder, Bornhuetter-Ferguson, IFRS 17, Solvency II, Solvency 2, HGB, Python, Anki, Obsidian."
 
 # Translate non-English speech to English
 translate = false
@@ -59,9 +61,9 @@ translate = false
 
 [output]
 # Primary output mode: "type" or "clipboard"
-# - type: Simulates keyboard input at cursor position (requires ydotool)
+# - type: Simulates keyboard input at cursor position (wtype on Hyprland)
 # - clipboard: Copies text to clipboard (requires wl-copy)
-mode = "clipboard" #"type"
+mode = "clipboard"
 
 # Fall back to clipboard if typing fails
 fallback_to_clipboard = true
