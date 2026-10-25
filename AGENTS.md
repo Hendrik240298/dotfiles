@@ -2,8 +2,8 @@
 
 ## Repo Shape
 - This repo is a GNU Stow repo, not an app/library repo. There is no build, test, lint, CI, or root manifest to rely on.
-- Current Stow packages in this repo include `dunst`, `i3`, `omarchy`, `polybar`, `protonvpn`, `rofi`, `voxtype`, `vscode`, `wallpaper`, and `wezterm`.
-- The active desktop/session is Omarchy only. Treat `omarchy/` as the current desktop config, and treat `i3/` and `polybar/` as legacy unless the user explicitly asks to work on them.
+- Current Stow packages in this repo include `dunst`, `hyprland`, `i3`, `omarchy`, `polybar`, `protonvpn`, `rofi`, `voxtype`, `vscode`, `wallpaper`, and `wezterm`.
+- The active desktop/session is Hyprland with Noctalia on CachyOS. Treat `kde/`, `omarchy/`, `i3/`, and `polybar/` as legacy unless the user explicitly asks to work on them.
 - Non-package repo items that should stay out of Stow package roots: `docs/`, `ubuntu-settings.sh`, `arch-installer.sh`, `arch-settings.sh`, `install_yay.sh`, `background.jpg`.
 
 ## Stow Rules
@@ -14,14 +14,14 @@
 
 ## Verification
 - The main verification for repo changes is Stow + syntax checks, not tests.
-- For Omarchy/Hyprland changes, validate with: `hyprctl reload` and then `hyprctl configerrors`.
+- For Hyprland changes, validate with: `hyprctl reload` and then `hyprctl configerrors`.
 - Validate legacy i3 config changes with: `i3 -C -c /home/hendrik/dotfiles/i3/.config/i3/config`
 - Validate edited shell scripts with `sh -n <script>`.
 - If a live file blocks Stow and it should be Stow-managed, compare first with `diff -u <repo-file> <live-file>` before replacing it with a symlink.
 
 ## Runtime Coupling
-- Omarchy is the active desktop environment on this machine. Do not assume i3 or Polybar changes affect the live session unless the user says they still use those legacy configs.
-- `omarchy/` contains the current Omarchy-specific overrides tracked by this repo.
+- Hyprland with Noctalia is the active desktop environment on this machine. Do not assume KDE, Omarchy, i3, or Polybar changes affect the live session unless the user says they still use those legacy configs.
+- `omarchy/` contains legacy Omarchy-specific overrides tracked by this repo.
 - For any VS Code related work, read `docs/vscode/LAZYVIM_VSCODE_KEYMAP.md` first for the current keymap architecture and maintenance rules.
 - `i3/.config/i3/config` hardcodes a dual-monitor layout: workspaces are pinned to `HDMI-0` / `DP-0`, and startup runs `xrandr` to force both outputs to `2560x1440`. Treat workspace bindings and the `xrandr` line as a coupled change when editing the legacy i3 setup.
 - Legacy i3 starts Polybar via `~/.config/polybar/launch.sh`; if bar startup breaks, check that path first.

@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+class_regex='^com[.]mitchellh[.]ghostty$'
+state_file="${XDG_RUNTIME_DIR:-/tmp}/hypr-cycle-ghostty.json"
+
+# focusHistoryID is 0 for the current window, 1 for the previous, and so on.
+windows=$(hyprctl clients -j | jq -c --arg regex "$class_regex" '
+    [.[]
+     | select((.class // "") | test($regex; "i"))
+     | { address, focusHistoryID: (if (.focusHistoryID // -1) < 0 then 999999 else .focusHistoryID end) }
+    ] | sort_by(.focusHistoryID)
+')
+
+if [[ $windows == "[]" ]]; then
+    exec uwsm app -- ghostty
+fi
+
+active_address=$(hyprctl activewindow -j | jq -r '.address // empty')
+order=$(jq -c 'map(.address)' <<<"$windows")
+next_address=''
+
+# Keep the original recency order while cycling; focusing a terminal updates
+# Hyprland's focus history and would otherwise make the cycle bounce back.
+if [[ -r $state_file ]]; then
+    next_address=$(jq -r --arg active_address "$active_address" --argjson open "$order" '
+        .last as $last |
+        [.order[] | select(. as $address | $open | index($address))] as $order |
+        if $active_address == $last and ($order | length > 0) then
+            ($order | index($last)) as $current |
+            if $current == null then $order[0]
+            else $order[(($current + 1) % ($order | length))]
+            end
+        else empty
+        end
+    ' "$state_file" 2>/dev/null || true)
+fi
+
+if [[ -z $next_address ]]; then
+    next_address=$(jq -r --arg active_address "$active_address" '
+        (index($active_address)) as $current |
+        if $current == null then
+            .[0]
+        else
+            .[(($current + 1) % length)]
+        end
+    ' <<<"$order")
+fi
+
+hyprctl eval "return hl.dispatch(hl.dsp.focus({ window = 'address:$next_address' }))"
+printf '%s\n' "$(jq -cn --arg last "$next_address" --argjson order "$order" '{ last: $last, order: $order }')" >"$state_file"

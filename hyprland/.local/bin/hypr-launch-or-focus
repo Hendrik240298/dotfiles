@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if (( $# < 2 )); then
+    printf 'Usage: %s CLASS_REGEX COMMAND [ARG ...]\n' "${0##*/}" >&2
+    exit 2
+fi
+
+class_regex=$1
+shift
+
+window=$(hyprctl clients -j | jq -r --arg regex "$class_regex" \
+    '[.[] | select((.class // "") | test($regex; "i")) | { address, workspace }] | first // empty')
+
+if [[ -n $window ]]; then
+    window_address=$(jq -r '.address' <<<"$window")
+
+    hyprctl eval "return hl.dispatch(hl.dsp.focus({ window = 'address:$window_address' }))"
+else
+    exec uwsm app -- "$@"
+fi
