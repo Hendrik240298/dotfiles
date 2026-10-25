@@ -7,6 +7,9 @@ Config files:
 - `vscode/.config/Code/User/settings.json`
 - `vscode/.config/Code/User/keybindings.json`
 
+The Code - OSS package files point to these same canonical settings and
+keybindings.
+
 ## Philosophy
 
 This is a keyboard-first VS Code setup inspired by Vim/Neovim and LazyVim, not a strict Neovim clone.
