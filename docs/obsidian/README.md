@@ -7,8 +7,9 @@ Keep the native Quick Switcher, native File Explorer, and existing sidebar views
 The Markdown editor in normal mode is the command centre. Do not add an app-wide
 leader plugin or replace the explorer just to make Space work elsewhere.
 
-The canonical configuration is `../../obsidian/.obsidian.vimrc`, managed by the
-`obsidian` Stow package with an explicit vault-root target. It has not been
+The canonical Vim configuration is `../../obsidian/.obsidian.vimrc`, managed by the
+`obsidian` Stow package with an explicit vault-root target. The package also installs
+**Hendrik's Theme** and selects it through `.obsidian/appearance.json`. It has not been
 smoke-tested in a running vault. The canonical VS Code reference
 is `../vscode/LAZYVIM_VSCODE_KEYMAP.md`; the principle is **same intent, same keys**.
 Do not imitate programming-specific features in Markdown or give an existing key
@@ -23,6 +24,7 @@ a different meaning just to fill every slot.
 4. On Windows, copy `obsidian/.obsidian.vimrc` from this repository to
    `<vault>/.obsidian.vimrc` (the vault root, **not** `.obsidian/`), preserving
    any existing configuration. The plugin also allows a custom vault-relative path.
+   For the theme, follow [the theme installation instructions](themes/hendriks-theme/README.md).
 5. Restart Obsidian after changing the file and run the manual checks below.
 
 The file has no OS-specific paths, shell commands, or JavaScript snippets.
@@ -34,15 +36,30 @@ do not assume your sync mechanism transfers hidden root files automatically.
 Run from the dotfiles repository root:
 
 ```sh
+sh installer/install-obsidian-config.sh --dry-run --vault "$HOME/Obsidian"
+sh installer/install-obsidian-config.sh --vault "$HOME/Obsidian"
+```
+
+The helper requires an existing vault directory and refuses HOME, `/` and the
+dotfiles repository as targets. It checks for conflicts before applying links,
+does not install plugins, and is equivalent to these direct Stow commands:
+
+```sh
 stow --simulate --verbose --no-folding --target="$HOME/Obsidian" obsidian
 stow --verbose --no-folding --target="$HOME/Obsidian" obsidian
 ```
 
 **Always specify the vault target for this package.** It is not a regular
 home-target package and must not be included in bulk `stow -t "$HOME"` commands.
-The package contains only `.obsidian.vimrc`; documentation stays under `docs/`.
-Stow creates that single file link, not a link replacing the vault directory.
-No notes, vault settings, plugins, or native hotkeys are managed by this package.
+The package contains `.obsidian.vimrc`, `.obsidian/appearance.json`, and the theme's
+`manifest.json` and `theme.css`; documentation stays under `docs/`.
+Stow creates individual file links, not a link replacing the vault directory.
+If `.obsidian/appearance.json` already exists, compare it with the package version,
+preserve any wanted settings in the package version, and back up the live file
+outside the vault before replacing it with a Stow link. Do not use `--adopt`.
+Appearance changes made in Obsidian will update the Stow-managed file, so review
+them before committing. Notes, other vault settings, plugins, and native hotkeys
+are not managed by this package.
 
 The config uses literal `<Space>` sequences and `<CR>` terminators. Do not add
 `let mapleader`: the installed plugin reported "Not an editor command" for it.

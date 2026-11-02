@@ -1,2 +1,2 @@
 #!/bin/sh 
-yay -S --noconfirm --needed synology-drive
+paru -S --noconfirm --needed synology-drive

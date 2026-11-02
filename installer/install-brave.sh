@@ -1,3 +1,5 @@
 #!/bin/sh
-yay -S --noconfirm --needed brave-bin
+set -eu
+
+paru -S --noconfirm --needed brave-bin
 xdg-settings set default-web-browser brave-browser.desktop

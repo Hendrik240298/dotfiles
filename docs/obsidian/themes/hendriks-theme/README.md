@@ -8,22 +8,31 @@ The destination is the `.obsidian/themes/` directory inside the vault that shoul
 
 ### Linux
 
-```bash
-mkdir -p "$VAULT/.obsidian/themes"
-cp -r /path/to/hendriks-theme "$VAULT/.obsidian/themes/Hendrik's Theme"
+From the dotfiles repository root, with `VAULT` set to your vault path:
+
+```sh
+stow --simulate --verbose --no-folding --target="$VAULT" obsidian
+stow --verbose --no-folding --target="$VAULT" obsidian
 ```
+
+This installs the theme and selects it via `.obsidian/appearance.json`, alongside
+the Vim configuration. Stop on conflicts: compare and back up existing appearance
+settings before replacing them with the Stow-managed version. See the
+[package instructions](../../README.md). Restart Obsidian after deployment.
 
 ### Windows
 
-In PowerShell:
+In PowerShell, from the dotfiles repository root:
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\Documents\Obsidian\<vault>\.obsidian\themes"
-Copy-Item -Recurse -Force "C:\path\to\hendriks-theme" "$env:USERPROFILE\Documents\Obsidian\<vault>\.obsidian\themes\Hendrik's Theme"
+Copy-Item -Recurse -Force ".\obsidian\.obsidian\themes\Hendrik's Theme" "$env:USERPROFILE\Documents\Obsidian\<vault>\.obsidian\themes\Hendrik's Theme"
 ```
 
 Restart Obsidian, then select **Hendrik's Theme** under **Settings -> Appearance -> Themes**.
 
 ## Update
 
-Replace `theme.css` and `manifest.json` in the installed theme directory, then reload the theme or restart Obsidian.
+On Linux, edit the canonical files under `obsidian/.obsidian/themes/Hendrik's Theme/`;
+the vault uses those files through Stow links. On Windows, copy the updated files
+again. Reload the theme or restart Obsidian.

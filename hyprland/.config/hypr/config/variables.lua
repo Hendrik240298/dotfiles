@@ -6,11 +6,12 @@ BROWSER      = "brave"
 EDITOR       = "ghostty -e nvim"
 CALCULATOR   = "gnome-calculator"
 
--- Monitors
-MONITOR1 = "HDMI-A-1"
-MONITOR2 = "DP-1"
+-- Select the laptop, dual-monitor PC or portable fallback profile on reload.
+MONITOR_PROFILE = require("config.monitor_profiles").current()
+MONITOR1 = MONITOR_PROFILE.primary
+MONITOR2 = MONITOR_PROFILE.secondary
 MONITOR3 = ""
 PRIMARY_MONITOR = MONITOR1
 
 -- Workspaces
-NUM_WPM = 8 -- Primary-monitor workspaces; DP-1 uses dedicated workspace 9.
+NUM_WPM = 9 -- Same shortcuts on both machines; the PC keeps workspace 9 on DP-1.

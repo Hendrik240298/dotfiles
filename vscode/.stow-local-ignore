@@ -1,0 +1,4 @@
+# Only the canonical settings/keybindings belong on a new machine.
+# Runtime files may exist here if an older install folded the app directory.
+^/\.config/(?:Code|Code - OSS)/(?!User(?:/|$)).+
+^/\.config/(?:Code|Code - OSS)/User/(?!settings\.json$|keybindings\.json$).+

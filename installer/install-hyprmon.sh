@@ -1,2 +1,2 @@
 #!/bin/sh
-yay -S --noconfirm --needed hyprmon-bin
+paru -S --noconfirm --needed hyprmon-bin

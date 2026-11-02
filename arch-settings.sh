@@ -7,6 +7,11 @@ sudo rmmod pcspkr 2>/dev/null || true
 # Disable GNOME audible bell
 gsettings set org.gnome.desktop.wm.preferences audible-bell false
 
+# Default browser: Brave
+for t in text/html x-scheme-handler/about x-scheme-handler/http x-scheme-handler/https x-scheme-handler/unknown; do
+  xdg-mime default brave-browser.desktop "$t"
+done
+
 # proton vpn cli autostart
 mkdir -p ~/.config/autostart
 rm -f ~/.config/autostart/proton.vpn.app.gtk.desktop

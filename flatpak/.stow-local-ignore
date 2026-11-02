@@ -1,0 +1,3 @@
+# Deploy portable overrides only, never Flatpak repositories or runtime state.
+^/\.local/share/flatpak/(?!overrides(?:/|$)).+
+^/\.local/share/flatpak/overrides/(?!global$).+

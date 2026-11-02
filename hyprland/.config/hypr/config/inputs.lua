@@ -4,7 +4,7 @@ hl.config({
     input = {
         accel_profile = "flat",
         kb_layout = "us,us",
-        kb_variant = ",intl",
+        kb_variant = "colemak,intl",
         kb_options = "compose:caps,grp:alt_altgr_toggle",
     },
     -- Uncomment the section below to enable software cursors; this can help with cursor display or behavior issues
