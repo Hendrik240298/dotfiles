@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hendrik Keyboard adapter regression</title>
+  <link rel="stylesheet" href="../../../obsidian/.obsidian/plugins/hendrik-keyboard/styles.css">
+  <style>body { --interactive-accent: teal; } #results { white-space: pre-wrap; }</style>
+</head>
+<body>
+  <p>This fixture mocks Obsidian and Calendar. It is not live integration verification.</p>
+  <div id="note" tabindex="0">Markdown editor</div>
+  <div id="explorer" tabindex="0">Native File Explorer fixture</div>
+  <div class="workspace-leaf-content" data-type="calendar"><div id="calendar"></div></div>
+  <pre id="results"></pre>
+  <script>
+    const notices = [];
+    class MockPlugin {
+      constructor(app) { this.app = app; this.commands = []; this.cleanups = []; }
+      addCommand(command) { this.commands.push(command); }
+      registerDomEvent(target, type, handler, options) {
+        target.addEventListener(type, handler, options);
+        this.cleanups.push(() => target.removeEventListener(type, handler, options));
+      }
+    }
+    class MockNotice { constructor(text) { notices.push(text); } }
+    window.require = () => ({ Plugin: MockPlugin, Notice: MockNotice });
+    window.module = { exports: {} };
+    // The adapter uses native Date arithmetic. Moment only crosses the Calendar
+    // boundary, so this mock records exactly which date was passed across it.
+    window.moment = date => ({ toDate: () => new Date(date) });
+  </script>
+  <script src="../../../obsidian/.obsidian/plugins/hendrik-keyboard/main.js"></script>
+  <script>
+    window.runCalendarTests = async function () {
+      const results = [];
+      const check = (name, passed) => results.push({ name, passed: !!passed });
+      const root = document.getElementById('calendar');
+      const noteEl = document.getElementById('note');
+      const explorerEl = document.getElementById('explorer');
+      const treeCalls = [];
+      const opened = [];
+      let created = 0;
+      let revealed = 0;
+      let enabled = true;
+      let calendarExists = true;
+      const flush = async () => { for (let i = 0; i < 6; i++) await Promise.resolve(); };
+      function render(date) {
+        root.querySelectorAll('.day').forEach(el => el.remove());
+        const count = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+        for (let day = 1; day <= count; day++) {
+          const el = document.createElement('div');
+          el.className = 'day'; el.textContent = String(day); root.append(el);
+        }
+      }
+      const note = { view: { getViewType: () => 'markdown', editor: { focus: () => noteEl.focus() } } };
+      const explorer = { view: { containerEl: explorerEl, tree: {
+        onKeyArrowDown: () => treeCalls.push('down'),
+        onKeyArrowUp: () => treeCalls.push('up'),
+        onKeyArrowLeft: () => treeCalls.push('left'),
+        onKeyArrowRight: () => treeCalls.push('right'),
+      }, onKeyOpen: () => treeCalls.push('open') } };
+      const calendar = { view: { contentEl: root, getViewType: () => 'calendar',
+        calendar: { $set: ({ displayedMonth }) => { Promise.resolve().then(() => render(displayedMonth.toDate())); } },
+        openOrCreateDailyNote: async (date, split) => opened.push({ date: date.toDate(), split }),
+      }, setViewState: async () => { calendarExists = true; created++; } };
+      const app = { plugins: { getPlugin: () => enabled ? {} : null }, workspace: {
+        getMostRecentLeaf: () => note,
+        getLeavesOfType: type => type === 'calendar' ? (calendarExists ? [calendar] : []) : type === 'markdown' ? [note] : type === 'file-explorer' ? [explorer] : [],
+        getRightLeaf: () => calendar,
+        revealLeaf: async () => { revealed++; },
+        setActiveLeaf: leaf => { app.workspace.activeLeaf = leaf; },
+      } };
+      const adapter = new module.exports(app);
+      adapter.onload();
+      const key = async (value, target = root, options = {}) => {
+        const event = new KeyboardEvent('keydown', { key: value, bubbles: true, cancelable: true, ...options });
+        target.dispatchEvent(event); await flush(); return event;
+      };
+      try {
+        await key('j', explorerEl, { code: 'KeyY' });
+        check('Explorer follows Colemak-produced j, not QWERTY position', treeCalls.join() === 'down');
+        const wrongCode = await key('y', explorerEl, { code: 'KeyJ' });
+        check('Explorer ignores physical KeyJ when it produces another letter', !wrongCode.defaultPrevented && treeCalls.length === 1);
+        await key('k', explorerEl); await key('h', explorerEl); await key('l', explorerEl);
+        check('Explorer hjkl delegates to native tree movement', treeCalls.join() === 'down,up,left,right');
+        explorer.view.tree.focusedItem = { file: { extension: 'md' } };
+        await key('l', explorerEl);
+        check('Explorer l opens a file through the native handler', treeCalls.at(-1) === 'open');
+        const rename = document.createElement('input'); explorerEl.append(rename);
+        const beforeRename = treeCalls.length;
+        check('Explorer rename input is not intercepted', !(await key('j', rename)).defaultPrevented && treeCalls.length === beforeRename);
+        rename.remove();
+        check('Explorer native Enter is not replaced', !(await key('Enter', explorerEl)).defaultPrevented);
+        await key('Escape', explorerEl);
+        check('Explorer Escape returns keyboard focus to the note', document.activeElement === noteEl);
+        const modal = document.createElement('div'); modal.className = 'modal'; document.body.append(modal);
+        check('open dialogs disable the adapter', !(await key('j', explorerEl)).defaultPrevented);
+        modal.remove();
+        const down = explorer.view.tree.onKeyArrowDown;
+        explorer.view.tree.onKeyArrowDown = null;
+        check('changed Explorer internals fail visibly without consuming input', !(await key('j', explorerEl)).defaultPrevented && notices.at(-1).includes('interface changed'));
+        explorer.view.tree.onKeyArrowDown = down;
+
+        await adapter.focusCalendar();
+        check('focus existing Calendar and reveal its sidebar', revealed === 1 && document.activeElement === root);
+        check('do not create duplicate Calendar views', created === 0);
+        check('one visible selected date', root.querySelectorAll('.hk-calendar-selected').length === 1);
+        check('keyboard date cursor is visually outlined', getComputedStyle(root.querySelector('.hk-calendar-selected')).outlineStyle === 'solid');
+        check('status exposes keyboard help', root.querySelector('[role="status"]').textContent.includes('h/l day'));
+
+        adapter.selectedDate = new Date(2026, 11, 31, 12);
+        await key('l');
+        check('next day crosses a year boundary', adapter.selectedDate.getFullYear() === 2027 && adapter.selectedDate.getMonth() === 0 && adapter.selectedDate.getDate() === 1);
+        await key('h');
+        check('previous day crosses a year boundary', adapter.selectedDate.getFullYear() === 2026 && adapter.selectedDate.getMonth() === 11 && adapter.selectedDate.getDate() === 31);
+        adapter.selectedDate = new Date(2026, 0, 31, 12);
+        await key(']');
+        check('month jump clamps Jan 31 to Feb 28', adapter.selectedDate.getMonth() === 1 && adapter.selectedDate.getDate() === 28);
+        await key('[');
+        check('previous month uses selected date', adapter.selectedDate.getMonth() === 0 && adapter.selectedDate.getDate() === 28);
+        adapter.selectedDate = new Date(2028, 0, 31, 12);
+        await key(']');
+        check('leap-year month jump clamps to Feb 29', adapter.selectedDate.getDate() === 29);
+        await key('l');
+        check('next day crosses month boundary', adapter.selectedDate.getMonth() === 2 && adapter.selectedDate.getDate() === 1);
+        await key('h');
+        check('previous day crosses month boundary', adapter.selectedDate.getMonth() === 1 && adapter.selectedDate.getDate() === 29);
+        await key('j');
+        check('j moves one week forward', adapter.selectedDate.getMonth() === 2 && adapter.selectedDate.getDate() === 7);
+        await key('k');
+        check('k moves one week backward', adapter.selectedDate.getMonth() === 1 && adapter.selectedDate.getDate() === 29);
+        check('date navigation never opens or creates notes', opened.length === 0);
+
+        const event = await key('Enter');
+        check('Enter delegates selected day to Calendar once', opened.length === 1 && opened[0].date.getDate() === 29 && opened[0].date.getFullYear() === 2028);
+        check('opening does not create an extra split', opened[0].split === false);
+        check('handled keys are consumed', event.defaultPrevented);
+        const shifted = await key('Enter', root, { shiftKey: true });
+        check('shifted Enter remains untouched', !shifted.defaultPrevented && opened.length === 1);
+        const prior = adapter.selectedDate.getTime();
+        check('modified Vim keys remain untouched', !(await key('h', root, { ctrlKey: true })).defaultPrevented && adapter.selectedDate.getTime() === prior);
+        check('IME input remains untouched', !(await key('h', root, { isComposing: true })).defaultPrevented);
+        check('editor Vim keys remain untouched', !(await key('h', noteEl)).defaultPrevented);
+        const input = document.createElement('input'); root.append(input);
+        check('Calendar text inputs remain editable', !(await key('h', input)).defaultPrevented);
+        input.remove();
+        await key('t');
+        check('t returns to today', adapter.selectedDate.toDateString() === new Date().toDateString());
+        await key('Escape');
+        check('Escape restores the previous note and its keyboard focus', app.workspace.activeLeaf === note && document.activeElement === noteEl);
+
+        calendarExists = false;
+        await adapter.focusCalendar();
+        check('closed Calendar can be recreated in the right sidebar', created === 1);
+        enabled = false;
+        const count = notices.length;
+        await adapter.focusCalendar();
+        check('missing Calendar is reported visibly', notices.length === count + 1 && created === 1);
+        enabled = true;
+        const component = calendar.view.calendar;
+        calendar.view.calendar = {};
+        await adapter.focusCalendar();
+        check('changed Calendar internals fail safely', adapter.calendarLeaf === null && notices.at(-1).includes('interface has changed'));
+        calendar.view.calendar = component;
+        await adapter.focusCalendar();
+        adapter.onunload(); adapter.cleanups.forEach(cleanup => cleanup());
+        check('unload removes selection and help', !root.querySelector('.hk-calendar-selected, .hk-calendar-status'));
+        check('unload restores the original tabindex', !root.hasAttribute('tabindex'));
+        check('unloaded adapter does not capture keys', !(await key('h')).defaultPrevented);
+      } catch (error) {
+        check(String(error.stack || error), false);
+      } finally {
+        adapter.onunload(); adapter.cleanups.forEach(cleanup => cleanup());
+      }
+      const result = { passed: results.every(result => result.passed), results };
+      document.getElementById('results').textContent = JSON.stringify(result, null, 2);
+      return result;
+    };
+    window.addEventListener('load', () => { window.fixturePromise = window.runCalendarTests(); });
+  </script>
+</body>
+</html>

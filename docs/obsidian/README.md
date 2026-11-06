@@ -1,5 +1,9 @@
 # Obsidian: VS Code / LazyVim-style normal-mode navigation
 
+For daily navigation, mental models, shared shortcuts and a gradual adoption
+plan, start with [Keyboard-first Obsidian](KEYBOARD_WORKFLOW.md). This page covers
+configuration, installation and compatibility details.
+
 ## Decision
 
 Use Obsidian's built-in Vim mode plus **Vimrc Support** (`obsidian-vimrc-support`).
@@ -7,9 +11,15 @@ Keep the native Quick Switcher, native File Explorer, and existing sidebar views
 The Markdown editor in normal mode is the command centre. Do not add an app-wide
 leader plugin or replace the explorer just to make Space work elsewhere.
 
+The bundled, opt-in **Hendrik Keyboard** adapter adds semantic-letter Explorer
+`hjkl` and focused Calendar navigation. See [its scope, compatibility risks and
+tests](KEYBOARD_ADAPTER.md). This implements the keyboard-first manifesto without
+QWERTY-position mappings or another full Vim engine. It is not live-verified.
+
 The canonical Vim configuration is `../../obsidian/.obsidian.vimrc`, managed by the
 `obsidian` Stow package with an explicit vault-root target. The package also installs
-**Hendrik's Theme** and selects it through `.obsidian/appearance.json`. It has not been
+**Hendrik's Theme**, selects it through `.obsidian/appearance.json`, and provides
+the adapter's files without enabling it. This setup has not been
 smoke-tested in a running vault. The canonical VS Code reference
 is `../vscode/LAZYVIM_VSCODE_KEYMAP.md`; the principle is **same intent, same keys**.
 Do not imitate programming-specific features in Markdown or give an existing key
@@ -18,14 +28,23 @@ a different meaning just to fill every slot.
 ## Installation: Windows and Linux
 
 1. Leave **Settings → Editor → Vim key bindings** enabled.
-2. Install and enable **Vimrc Support** from Community plugins.
+2. Install and enable **Vimrc Support** from Community plugins. For Explorer Vim
+   keys, enable the bundled **Hendrik Keyboard** plugin after deploying its files;
+   for Calendar navigation, also enable the existing **Calendar** plugin.
 3. On Linux, use the targeted Stow commands below. Stop on conflicts; do not
    overwrite existing files or use `--adopt` to import vault contents.
 4. On Windows, copy `obsidian/.obsidian.vimrc` from this repository to
    `<vault>/.obsidian.vimrc` (the vault root, **not** `.obsidian/`), preserving
    any existing configuration. The plugin also allows a custom vault-relative path.
    For the theme, follow [the theme installation instructions](themes/hendriks-theme/README.md).
+   Copy the three files from `obsidian/.obsidian/plugins/hendrik-keyboard/` into
+   `<vault>/.obsidian/plugins/hendrik-keyboard/` for the optional adapter.
 5. Restart Obsidian after changing the file and run the manual checks below.
+
+For app-wide shortcuts, [hotkeys.keyboard.json](hotkeys.keyboard.json) is a
+**merge fragment**, not a replacement for an existing `hotkeys.json`. It aligns
+Quick Open/palette/search with VS Code and adds a focus-return key. It is not
+Stow-managed or deployed automatically; merge only after reviewing conflicts.
 
 The file has no OS-specific paths, shell commands, or JavaScript snippets.
 Leave **Support JS Commands** disabled. Configure each vault/device as needed;
@@ -42,7 +61,8 @@ sh installer/install-obsidian-config.sh --vault "$HOME/Obsidian"
 
 The helper requires an existing vault directory and refuses HOME, `/` and the
 dotfiles repository as targets. It checks for conflicts before applying links,
-does not install plugins, and is equivalent to these direct Stow commands:
+does not download third-party plugins or enable any plugin, and is equivalent
+to these direct Stow commands:
 
 ```sh
 stow --simulate --verbose --no-folding --target="$HOME/Obsidian" obsidian
@@ -51,15 +71,16 @@ stow --verbose --no-folding --target="$HOME/Obsidian" obsidian
 
 **Always specify the vault target for this package.** It is not a regular
 home-target package and must not be included in bulk `stow -t "$HOME"` commands.
-The package contains `.obsidian.vimrc`, `.obsidian/appearance.json`, and the theme's
-`manifest.json` and `theme.css`; documentation stays under `docs/`.
+The package contains `.obsidian.vimrc`, `.obsidian/appearance.json`, the theme's
+`manifest.json` and `theme.css`, and the local adapter's three files under
+`.obsidian/plugins/hendrik-keyboard/`; documentation stays under `docs/`.
 Stow creates individual file links, not a link replacing the vault directory.
 If `.obsidian/appearance.json` already exists, compare it with the package version,
 preserve any wanted settings in the package version, and back up the live file
 outside the vault before replacing it with a Stow link. Do not use `--adopt`.
 Appearance changes made in Obsidian will update the Stow-managed file, so review
-them before committing. Notes, other vault settings, plugins, and native hotkeys
-are not managed by this package.
+them before committing. Notes, other vault settings, third-party plugin files,
+the enabled-plugin list and native hotkeys are not managed by this package.
 
 The config uses literal `<Space>` sequences and `<CR>` terminators. Do not add
 `let mapleader`: the installed plugin reported "Not an editor command" for it.
@@ -105,7 +126,7 @@ These do not replace existing VS Code meanings:
 | `Space sx` | Show Outgoing links |
 | `Space sp` | Show current note's Properties view |
 | `Space ug` | Open graph |
-| `Space uc` | Calendar, only if its commented mapping is enabled and Calendar is already installed |
+| `Space uc` | Focus/reveal Calendar; requires Calendar + Hendrik Keyboard |
 | `za`, `zM`, `zR` | Toggle current fold / fold all / unfold all |
 
 Vimrc Support supplies heading motions `[[`/`]]`, link motions `gl`/`gL`, and
@@ -115,14 +136,15 @@ and the system clipboard. Keep `Ctrl+O` as native Quick Switcher for now.
 ## Sidebar → editor loop
 
 Vimrc mappings do not work in the File Explorer, Outline, search inputs, or
-Reading view. Native sidebar keyboard navigation is intentionally retained:
+Reading view. Hendrik Keyboard supplies the focused Explorer bridge:
 
 1. From the note, press `Space fe` to reveal it, or `Space e` to show Explorer.
-2. Use arrow keys to browse the tree, Left/Right to collapse/expand, and Enter
-   to open a note. Depending on focus, Tab may be needed to enter the tree.
-3. Use Escape where the current Obsidian version returns to the editor.
+2. Use `j/k` to move, `h/l` to collapse/expand, and `l` or native Enter to open
+   a note. The adapter is semantic-letter based for Colemak. Native arrows remain
+   a diagnostic fallback if an Obsidian update changes the tree interface.
+3. With the adapter enabled, Escape returns from Explorer to the last note.
    For a predictable fallback, assign the native **Focus on last note** command
-   (`editor:focus`) to a free global shortcut, e.g. `Ctrl+Shift+E` after checking
+    (`editor:focus`) to a free global shortcut, e.g. `Alt+E` after checking
    existing bindings. The vimrc cannot intercept Escape outside the editor.
 4. Once back in a Markdown editor, press Escape to reach normal mode and use
    the leader sequences again.
@@ -155,15 +177,16 @@ but they will then also apply while typing; this is not a scoped Vim mapping.
   documentation describes dragging the divider. A JS helper could use internal
   layout APIs, but adds security/compatibility costs; leave this explicit rather
   than masquerading zoom or split commands as resizing.
-- **Explorer `hjkl`:** native arrows only; actual `hjkl` would need additional
-  explorer handling. Editor `nmap` cannot change sidebar behaviour.
+- **Explorer `hjkl`:** implemented in the local adapter, not in `nmap`. It uses
+  undocumented tree handlers and needs a real-vault adoption check after updates.
 - **Code/LSP, diagnostics, notebooks, SQL and AI:** not mapped without a genuine
   Markdown equivalent or an existing plugin. Git actions require a Git plugin.
 - **`zo`/`zc`:** not mapped to a toggle, because explicit open/close and toggling
   have different meanings.
 
-Keep this first version to one plugin. Revisit the gaps after using it rather
-than enabling arbitrary JS or adding plugins purely for nominal parity.
+Keep built-in Vim + Vimrc Support + the small two-surface adapter. Calendar is
+the existing widget, not a replacement. Do not add a second UI/Vim engine or
+enable arbitrary vimrc JavaScript merely for nominal parity.
 
 ## Manual checks before adopting
 
@@ -176,13 +199,15 @@ Test on a disposable note/layout on both Windows and Linux:
    tabs in each group. `gt` changes tabs; directional focus changes groups.
 4. `Space qe` closes one tab. `Space wd` closes the whole group. `Space qq` closes
    the current window: test these only after saving and with a disposable layout.
-5. Reveal a nested note with `Space fe`, browse using arrows, and return using
+5. Reveal a nested note with `Space fe`, browse using `hjkl`, and return using
    the configured native focus shortcut. Check normal mode before using Space.
 6. Test sidebar toggles and enabled Outline/Backlinks/Outgoing links/Properties
    views; opening a view is not a promise that every view supports keyboard use.
 7. Verify `Space fm`, `Space fR`, clipboard yanking, wrapped-line `j`/`k`, `za`,
    `zM`, `zR`, and plugin-provided heading/link motions.
 8. Restart Obsidian and repeat a few mappings to confirm configuration loading.
+9. Run the [adapter adoption checks](KEYBOARD_ADAPTER.md#verification), especially
+   Calendar focus from a collapsed sidebar and Enter without another split.
 
 If a command does not work, try `:obcommand <command-id>` in the editor first.
 Typing `:obcommand` without an ID prints the installed command list to the

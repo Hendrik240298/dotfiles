@@ -1,0 +1,18 @@
+{
+  "switcher:open": [
+    { "modifiers": ["Mod"], "key": "P" },
+    { "modifiers": ["Mod"], "key": "O" }
+  ],
+  "command-palette:open": [
+    { "modifiers": ["Mod", "Shift"], "key": "P" }
+  ],
+  "global-search:open": [
+    { "modifiers": ["Mod", "Shift"], "key": "F" }
+  ],
+  "editor:focus": [
+    { "modifiers": ["Alt"], "key": "E" }
+  ],
+  "hendrik-keyboard:focus-calendar": [
+    { "modifiers": ["Mod", "Alt"], "key": "C" }
+  ]
+}

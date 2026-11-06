@@ -1,0 +1,9 @@
+{
+  "id": "hendrik-keyboard",
+  "name": "Hendrik Keyboard",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Colemak-friendly Vim navigation for the native File Explorer and Liam Cain's Calendar.",
+  "author": "Hendrik Fischer",
+  "isDesktopOnly": true
+}

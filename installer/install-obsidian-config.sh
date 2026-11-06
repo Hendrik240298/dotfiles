@@ -9,8 +9,8 @@ vault=
 
 usage() {
   printf '%s\n' "Usage: sh $0 [--dry-run] --vault PATH" \
-    'Stow the Obsidian Vim config and theme into one existing vault, never into HOME.' \
-    'Does not install/enable plugins or replace conflicting files.'
+    'Stow the Vim config, theme and local keyboard-adapter files into an existing vault, never HOME.' \
+    'Does not download third-party plugins, enable plugins, merge hotkeys or replace conflicting files.'
 }
 
 while [ "$#" -gt 0 ]; do
@@ -61,5 +61,6 @@ fi
 
 stow -v --no-folding -d "$repo_root" -t "$vault" obsidian
 printf '%s\n' \
-  'Obsidian Vim config and theme applied. Restart Obsidian.' \
-  'Enable Vim key bindings and install/enable Vimrc Support manually; see docs/obsidian/README.md.'
+  'Obsidian Vim config, theme and local keyboard-adapter files applied. Restart Obsidian.' \
+  'Enable Vim mode and Vimrc Support manually. The optional Hendrik Keyboard adapter must also be enabled explicitly.' \
+  'Calendar navigation additionally requires Calendar. Native hotkeys remain unchanged; see docs/obsidian/README.md.'

@@ -157,8 +157,9 @@ sh installer/install-obsidian-config.sh --vault "$HOME/Obsidian/My Vault"
 
 The vault directory must already exist. This links the Vim configuration,
 appearance settings and Hendrik's Theme, stopping on any conflict. Notes,
-plugins and other vault settings are not replaced. Vim mode and the Vimrc
-Support plugin still need to be enabled manually; see
+third-party plugin files and other vault settings are not replaced. The local
+Hendrik Keyboard adapter's files are also linked, but no plugins are enabled.
+Vim mode, Vimrc Support and the optional adapter still need manual activation; see
 [Obsidian setup](../obsidian/README.md).
 
 Anki, Calibre, LaTeX, KOReader, Todoist, Portfolio Performance, Ollama and

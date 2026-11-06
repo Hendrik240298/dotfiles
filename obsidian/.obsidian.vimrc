@@ -4,7 +4,8 @@
 " Stow this package with an explicit vault-root target, NOT the default home target.
 " Normal-mode editor mappings only; native Obsidian hotkeys handle sidebar focus.
 " See docs/obsidian/README.md for setup, parity gaps, and manual checks.
-" No JavaScript snippets or additional community plugins are required.
+" No JavaScript snippets. Calendar focus additionally needs the optional local
+" Hendrik Keyboard adapter, which also supplies Explorer hjkl using Colemak letters.
 
 " Core Vim feel
 set clipboard=unnamed
@@ -190,9 +191,11 @@ nmap <Space>sx :outgoinglinks<CR>
 exmap properties obcommand properties:open-local
 nmap <Space>sp :properties<CR>
 
-" Calendar is optional: only uncomment if the existing Calendar plugin is enabled.
-" exmap calendar obcommand calendar:show-calendar-view
-" nmap <Space>uc :calendar<CR>
+" Focus an existing Calendar, expanding its sidebar if needed. Calendar's own
+" Open view command only creates missing views, so it is not a focus shortcut.
+" Enable Calendar + the bundled Hendrik Keyboard adapter before use.
+exmap calendar obcommand hendrik-keyboard:focus-calendar
+nmap <Space>uc :calendar<CR>
 
 exmap graph obcommand graph:open
 nmap <Space>ug :graph<CR>
