@@ -36,3 +36,16 @@ Restart Obsidian, then select **Hendrik's Theme** under **Settings -> Appearance
 On Linux, edit the canonical files under `obsidian/.obsidian/themes/Hendrik's Theme/`;
 the vault uses those files through Stow links. On Windows, copy the updated files
 again. Reload the theme or restart Obsidian.
+
+## Editor spacing regression check
+
+Open `tests/editor-spacing.html` in a browser. The result should report `"passed": true`.
+It loads the actual theme and checks that focusing table cells and Kanban cards
+does not add bottom padding or change their height, while multiline editing still
+grows naturally and main-note/reading-view bottom spacing remains intact. It covers
+dark and light modes; resize the window and run `runSpacingTests()` in the console
+to check another viewport size.
+
+This is a representative DOM fixture, not a live Obsidian/plugin integration test.
+After installing the updated CSS, also focus and blur a table cell and a Kanban
+card in Obsidian, including a multiline item, to confirm the installed app's layout.

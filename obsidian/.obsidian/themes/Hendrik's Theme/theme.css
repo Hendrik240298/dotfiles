@@ -286,8 +286,9 @@ body {
   letter-spacing: 0.025em;
 }
 
+/* Keep end-of-note breathing room out of table-cell and Kanban editors. */
 .markdown-reading-view,
-.markdown-source-view.mod-cm6 .cm-scroller {
+.view-content > .markdown-source-view.mod-cm6 > .cm-editor > .cm-scroller {
   padding-bottom: 12vh;
 }
 

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hendrik's Theme — editor spacing regression</title>
+  <link rel="stylesheet" href="../../../../../obsidian/.obsidian/themes/Hendrik's%20Theme/theme.css">
+  <style>
+    /* Minimal layout fixture, not a substitute for Obsidian's own stylesheet. */
+    body { background: var(--background-primary); color: var(--text-normal); }
+    .cm-content, .rendered-text { font: 19px/30px sans-serif; }
+    .cm-content { outline: none; }
+    td { vertical-align: top; }
+    .kanban-plugin__item { border: 1px solid; width: 240px; }
+    #results { white-space: pre-wrap; }
+  </style>
+</head>
+<body class="theme-dark">
+  <h1>Editor spacing regression</h1>
+  <p>Checks the real theme against representative editor wrappers. It does not run Obsidian or the Kanban plugin.</p>
+  <div class="workspace-leaf-content" data-type="markdown">
+    <div class="view-content">
+      <div class="markdown-source-view mod-cm6">
+        <div class="cm-editor">
+          <div class="cm-scroller" id="note-scroller">
+            <div class="cm-content">
+              <div class="cm-table-widget markdown-rendered">
+                <table><tbody><tr>
+                  <td>SS3</td><td>Pull-<br>Aparts</td>
+                  <td id="table-cell" tabindex="0"><span class="rendered-text">15</span></td>
+                  <td>Band<br>confirmed</td>
+                </tr></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="workspace-leaf-content" data-type="kanban">
+    <div class="view-content">
+      <div class="kanban-plugin">
+        <div class="kanban-plugin__item" id="kanban-card" tabindex="0">
+          <span class="rendered-text">A short card</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="markdown-reading-view" id="reading-view">Reading view</div>
+  <pre id="results"></pre>
+  <script>
+    // Kanban uses a cm-table-widget wrapper around an Obsidian MarkdownEditor:
+    // https://github.com/mgmeyers/obsidian-kanban/blob/main/src/components/Editor/MarkdownEditor.tsx
+    function mountEditor(host, text, wrapped) {
+      host.innerHTML = `${wrapped ? '<div class="cm-table-widget markdown-source-view mod-cm6">' : ''}
+        <div class="cm-editor"><div class="cm-scroller">
+          <div class="cm-content" contenteditable="true"></div>
+        </div></div>${wrapped ? '</div>' : ''}`;
+      const content = host.querySelector('[contenteditable]');
+      content.textContent = text;
+      content.focus();
+      return content;
+    }
+
+    function checkEditor(hostId, text, wrapped) {
+      const host = document.getElementById(hostId);
+      host.blur();
+      host.innerHTML = '<span class="rendered-text"></span>';
+      host.firstChild.textContent = text;
+      const before = host.getBoundingClientRect().height;
+      host.onfocus = () => mountEditor(host, text, wrapped);
+      host.focus();
+      host.onfocus = null;
+      const scroller = host.querySelector('.cm-scroller');
+      const padding = parseFloat(getComputedStyle(scroller).paddingBottom);
+      const focused = host.getBoundingClientRect().height;
+      const content = host.querySelector('[contenteditable]');
+      content.textContent += '\nAn additional line\nA third line';
+      content.style.whiteSpace = 'pre-wrap';
+      const multiline = host.getBoundingClientRect().height;
+      content.blur();
+      host.innerHTML = '<span class="rendered-text"></span>';
+      host.firstChild.textContent = text;
+      const after = host.getBoundingClientRect().height;
+      return {
+        host: hostId, wrapped, before, focused, after, padding, multiline,
+        passed: padding === 0 && Math.abs(focused - before) <= 1 &&
+          Math.abs(after - before) <= 1 && multiline > focused,
+      };
+    }
+
+    window.runSpacingTests = function () {
+      const results = [];
+      for (const mode of ['theme-dark', 'theme-light']) {
+        document.body.className = mode;
+        for (const wrapped of [false, true]) {
+          results.push({ mode, ...checkEditor('table-cell', '15', wrapped) });
+        }
+        results.push({ mode, ...checkEditor('kanban-card', 'A short card', true) });
+        const expected = innerHeight * 0.12;
+        for (const id of ['note-scroller', 'reading-view']) {
+          const padding = parseFloat(getComputedStyle(document.getElementById(id)).paddingBottom);
+          results.push({ mode, host: id, padding, expected, passed: Math.abs(padding - expected) < 0.1 });
+        }
+      }
+      document.body.className = 'theme-dark';
+      const passed = results.every(result => result.passed);
+      document.getElementById('results').textContent = JSON.stringify({ passed, results }, null, 2);
+      return { passed, results };
+    };
+    window.addEventListener('load', window.runSpacingTests);
+  </script>
+</body>
+</html>
