@@ -2,6 +2,10 @@
 
 A sharp, dark Obsidian theme for focused technical notes. It pairs readable Fira Sans prose with a compact monospace interface, square pane geometry, and clear active-pane focus.
 
+H1–H6 use the full note-column width in both editing and Reading view. Heading
+hierarchy comes from typography and the existing solid/dashed/dotted rules, not
+progressively narrower text columns. H1's appearance is unchanged.
+
 ## Install
 
 The destination is the `.obsidian/themes/` directory inside the vault that should use the theme.
@@ -49,3 +53,11 @@ to check another viewport size.
 This is a representative DOM fixture, not a live Obsidian/plugin integration test.
 After installing the updated CSS, also focus and blur a table cell and a Kanban
 card in Obsidian, including a multiline item, to confirm the installed app's layout.
+
+## Heading width regression check
+
+Open `tests/headings.html` in a browser; it should report `"passed": true`.
+It checks all six levels in representative editing/Reading-view wrappers, dark
+and light modes, and 280/480/760px columns. All headings must fill the column,
+long text must wrap without horizontal overflow, and rule styles must remain
+unchanged. Like the spacing fixture, this is not a live Obsidian integration test.

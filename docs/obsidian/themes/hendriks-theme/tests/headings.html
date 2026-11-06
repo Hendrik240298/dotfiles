@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hendrik's Theme — heading width regression</title>
+  <link rel="stylesheet" href="../../../../../obsidian/.obsidian/themes/Hendrik's%20Theme/theme.css">
+  <style>
+    /* Representative wrappers only; Obsidian supplies its own base stylesheet. */
+    body { background: var(--background-primary); color: var(--text-normal); }
+    .column { max-width: 100%; }
+    .cm-line { white-space: pre-wrap; overflow-wrap: break-word; }
+    .markdown-preview-view h1, .markdown-preview-view h2,
+    .markdown-preview-view h3, .markdown-preview-view h4,
+    .markdown-preview-view h5, .markdown-preview-view h6 { overflow-wrap: break-word; }
+    #results { white-space: pre-wrap; }
+  </style>
+</head>
+<body class="theme-dark">
+  <h1>Heading width regression</h1>
+  <p>All six levels share one text column; their original rule styles remain distinct.</p>
+  <div class="markdown-preview-view column" id="reading"></div>
+  <div class="markdown-source-view mod-cm6 column" id="editor"><div class="cm-content"></div></div>
+  <pre id="results"></pre>
+  <script>
+    const text = 'A longer technical heading that should use the entire note column before wrapping';
+    for (let level = 1; level <= 6; level++) {
+      const reading = document.createElement(`h${level}`);
+      reading.textContent = text;
+      document.getElementById('reading').append(reading);
+      const editor = document.createElement('div');
+      editor.className = `cm-line HyperMD-header HyperMD-header-${level}`;
+      const span = document.createElement('span');
+      span.className = `cm-header cm-header-${level}`;
+      span.textContent = text;
+      editor.append(span);
+      document.querySelector('#editor .cm-content').append(editor);
+    }
+
+    window.runHeadingTests = function () {
+      const results = [];
+      const styles = ['solid', 'solid', 'dashed', 'dotted', 'solid', 'dotted'];
+      for (const mode of ['theme-dark', 'theme-light']) {
+        document.body.className = mode;
+        for (const width of [280, 480, 760]) {
+          for (const context of ['reading', 'editor']) {
+            const column = document.getElementById(context);
+            column.style.width = `${width}px`;
+            const expected = column.getBoundingClientRect().width;
+            const headings = column.querySelectorAll(context === 'reading' ? 'h1,h2,h3,h4,h5,h6' : '.HyperMD-header');
+            headings.forEach((heading, index) => {
+              const actual = heading.getBoundingClientRect().width;
+              const css = getComputedStyle(heading);
+              const ruleWidth = parseFloat(css.borderBottomWidth);
+              results.push({ mode, width, context, level: index + 1, actual, expected,
+                rule: css.borderBottomStyle, ruleWidth,
+                passed: Math.abs(actual - expected) < 1 &&
+                  heading.scrollWidth <= heading.clientWidth + 1 &&
+                  css.borderBottomStyle === styles[index] && ruleWidth === (index === 0 ? 2 : 1),
+              });
+            });
+          }
+        }
+      }
+      document.body.className = 'theme-dark';
+      const passed = results.every(result => result.passed);
+      document.getElementById('results').textContent = JSON.stringify({ passed, results }, null, 2);
+      return { passed, results };
+    };
+    window.addEventListener('load', window.runHeadingTests);
+  </script>
+</body>
+</html>
