@@ -18,7 +18,7 @@ hl.config({
     },
     render = {
         direct_scanout = 2,
-        -- Use the option below if you find games constantly black screening for a couple seconds whenever direct scanout enables/disables
+        -- Use the option below if games black-screen when direct scanout toggles.
         -- non_shader_cm = 0,
     },
     xwayland = {

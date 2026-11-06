@@ -1,1 +1,4 @@
 remote_updates/**
+# Local selectors/HyprMon output can land here through older folded Stow links.
+/hyprland/.config/hypr/machine
+/hyprland/.config/hypr/hyprmon.lua

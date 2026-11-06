@@ -185,14 +185,15 @@ the base or personal-app bundle.
 
 ## Shared laptop / PC defaults
 
-The same `hyprland` Stow package is used on both machines. Apps, shortcuts,
-keyboard layout and Noctalia settings are shared; monitor/workspace placement
-is selected automatically.
+The same `hyprland` Stow package is used on both machines. Apps and shortcut
+meanings are shared. Display/workspace profiles and per-device keyboard layouts
+keep the two machines distinct; never save a laptop's global keyboard state over
+the desktop's configuration.
 
 ### Automatic laptop / PC detection
 
-Detection uses connected DRM display outputs, not the hostname or a manual
-machine setting. The first matching rule wins:
+By default, detection uses connected DRM display outputs. The first matching
+rule wins:
 
 1. **Laptop:** `eDP-1` is connected. This takes priority even when external
    monitors are also connected.
@@ -203,6 +204,12 @@ machine setting. The first matching rule wins:
 Detection runs at login and on `hyprctl reload`; no manual profile switching
 is needed. After connecting/disconnecting monitors, run `hyprctl reload` to
 reselect the profile.
+
+For a mixed/docked setup you can explicitly select `desktop`, `laptop` or `auto`
+by putting that single word in `~/.config/hypr/machine`. This file is machine-local,
+Git-ignored and excluded from Stow; do not commit it or copy it between machines.
+An explicit selection still falls back safely if its required outputs are absent.
+It changes display/workspace selection only, never keyboard layouts.
 
 ### Saved display profiles
 
@@ -223,13 +230,20 @@ HDMI-A-1 landscape on the right, DP-1 portrait on the left, workspaces 1–8
 on HDMI and 9 on DP. Unknown/additional
 outputs use the portable fallback rule in `~/.config/hypr/config/monitors.lua`.
 
-- `~/.config/hypr/config/variables.lua`: shared apps, nine workspace shortcuts
-  and automatic profile selection.
-- `~/.config/hypr/hyprmon.lua`: optional local HyprMon profile, loaded last and
-  able to override the saved monitor settings on each machine. It is deliberately
-  not Stow-managed or copied between machines.
-- `~/.config/hypr/config/inputs.lua`: US Colemak by default, US international
-  as the second layout, Caps Lock Compose, Alt+AltGr to switch layouts.
+- `~/.config/hypr/config/variables.lua`: shared apps and profile selection.
+  Desktop primary-monitor cycling is limited to 1–8, with dedicated workspace 9
+  on the portrait display. The laptop has nine primary-monitor workspaces.
+- `~/.config/hypr/hyprmon.lua`: optional machine-local override, loaded last
+  **only for the laptop profile**, preserving the laptop setup without suddenly
+  activating a stale desktop file. It is Git-ignored and excluded from Stow.
+- `~/.config/hypr/config/inputs.lua`: global **plain US + US international**, so
+  the Q11's firmware Colemak is not remapped again on either machine. Software
+  Colemak applies **only** to `at-translated-set-2-keyboard`, the ThinkPad's
+  expected built-in keyboard. Verify that exact name with `hyprctl devices` on
+  the laptop; if it differs, update that device entry, not the global layout.
+  The built-in device resolves shortcuts by the produced symbols, preserving
+  the same Colemak letter shortcuts. Caps Lock Compose and Alt+AltGr layout
+  switching are retained.
 
 Saved letter shortcuts follow the active layout. `Super+1`–`9` selects a
 workspace; adding Shift moves a window there. `Super+Shift+L` locks.
@@ -237,9 +251,23 @@ workspace; adding Shift moves a window there. `Super+Shift+L` locks.
 The installer does **not** change the login manager or the console/greeter
 keyboard layout. Greeter auto-sync stays disabled until a greeter is set up.
 For the optional Noctalia greeter, see [NOCTALIA_GREETER.md](NOCTALIA_GREETER.md).
+The laptop's Noctalia layer rendering rule is scoped to the laptop profile;
+the desktop retains its existing layer behaviour. Ghostty template generation
+is shared; greeter auto-sync is off as a safe shared default.
 `arch-installer.sh` is the legacy i3 bootstrap, not the active desktop installer.
 
 ## Verify after installation
+
+Before applying shared configuration, run the host-independent regression checks:
+
+```sh
+lua docs/hyprland/tests/profiles.lua
+```
+
+These capture the real configuration calls for desktop, laptop and fallback:
+desktop geometry/workspaces, nine laptop workspaces, no pinning to unknown
+outputs, per-device Colemak, and unshadowed workspace shortcuts. They do not
+replace verification on the actual laptop.
 
 Log into a Hyprland (UWSM) session, then check:
 
@@ -262,6 +290,25 @@ systemctl --user enable --now hypridle.service
 ```
 
 ## Stow conflicts and recovery
+
+### Pulling is deployment when files are Stow-linked
+
+`git pull` can immediately change a running desktop through its existing links.
+Stow's conflict checks do not protect files that are already linked. Before
+updating either machine:
+
+1. Save local work and record the current commit and working-tree diff.
+2. `git fetch origin`, then inspect `git diff HEAD..origin/master -- hyprland`.
+3. Reconcile machine-specific changes in profiles/device entries; do not blindly
+   pull a laptop's global layout onto a firmware-mapped desktop.
+4. Run the regression checks. Prefer an isolated checkout for preparing changes;
+   edits to linked source files are live changes too.
+5. Fast-forward/merge only after review, dry-run Stow for newly added files,
+   then reload and verify keyboards, monitors, workspaces and config errors.
+
+Do not rerun the full installer merely to apply a Git update. A local rollback
+of shared files is a recovery measure, not a final reconciliation to commit over
+the other machine's work.
 
 When Stow is available, the installer checks for conflicts before installing
 packages. Otherwise it checks after installing Stow, before applying configs.

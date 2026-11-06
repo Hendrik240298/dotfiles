@@ -20,6 +20,8 @@
 - If a live file blocks Stow and it should be Stow-managed, compare first with `diff -u <repo-file> <live-file>` before replacing it with a symlink.
 
 ## Runtime Coupling
+- Stow-linked source files are live configuration: a Git pull OR an edit can immediately reconfigure the running desktop. Fetch and inspect incoming `hyprland` changes before pulling; prepare substantial reconciliation in an isolated directory and verify before deployment. Never treat a clean Git merge as desktop safety.
+- Keep desktop/laptop geometry and workspace counts in `config/monitor_profiles.lua`. Global keyboard layout stays plain US for firmware-Colemak Q11; software Colemak belongs only to the built-in ThinkPad device entry. Run `lua docs/hyprland/tests/profiles.lua`, then verify live devices/monitors/workspaces and config errors. The laptop device name is not verified from this desktop.
 - Hyprland with Noctalia is the active desktop environment on this machine. Do not assume KDE, Omarchy, i3, or Polybar changes affect the live session unless the user says they still use those legacy configs.
 - `omarchy/` contains legacy Omarchy-specific overrides tracked by this repo.
 - For any VS Code related work, read `docs/vscode/LAZYVIM_VSCODE_KEYMAP.md` first for the current keymap architecture and maintenance rules.

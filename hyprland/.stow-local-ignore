@@ -1,0 +1,2 @@
+# Never deploy one host's local selector or generated monitor override to another.
+^/\.config/hypr/(?:machine|hyprmon\.lua)$

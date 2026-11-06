@@ -31,6 +31,7 @@ hl.bind(mainMod .. " + SHIFT + Up",                   hl.dsp.window.move({ direc
 hl.bind(mainMod .. " + SHIFT + Right",                hl.dsp.window.move({ direction = "r" }))
 hl.bind(mainMod .. " + SHIFT + Left",                 hl.dsp.window.move({ direction = "l" }))
 hl.bind(mainMod .. " + SHIFT + Down",                 hl.dsp.window.move({ direction = "d" }))
+-- Do not bind an empty MONITOR3 over Super+Shift+3 (move to workspace 3).
 hl.bind(mainMod .. " + SHIFT + mouse_up",             hl.dsp.window.move({ monitor   = "-1" }))
 hl.bind(mainMod .. " + SHIFT + mouse_down",           hl.dsp.window.move({ monitor   = "+1" }))
 hl.bind(mainMod .. " + CONTROL + SHIFT + Right",      hl.dsp.window.move({ workspace = "m+1" }))
@@ -139,6 +140,12 @@ for i = 1, NUM_WPM do
     hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
     hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.focus({ workspace = i }))
+end
+
+-- Desktop: portrait workspace 9 is outside the primary-monitor loop.
+if NUM_WPM < 9 then
+    hl.bind(mainMod .. " + 9", hl.dsp.focus({ workspace = 9 }))
+    hl.bind(mainMod .. " + SHIFT + 9", hl.dsp.window.move({ workspace = 9 }))
 end
 
 -- Relative

@@ -24,7 +24,7 @@ usage() {
     '--with-voxtype: opt in to dictation, GPU setup and the large-v3 model (~3 GB).' \
     '--without-voxtype: accepted for compatibility; Voxtype is already off by default.' \
     '--replace-configs: back up conflicting setting files, then prefer the saved dotfiles.' \
-    'Laptop/PC display profiles are detected automatically at login and on hyprctl reload.' \
+    'Laptop/PC display profiles are detected automatically; ~/.config/hypr/machine optionally selects a local profile.' \
     'Guide: docs/hyprland/INSTALL.md' \
     'Never uses --adopt or changes the login manager; conflicts stop unless replacement is requested.'
 }
@@ -147,8 +147,9 @@ printf '%s\n' \
   "Back up and replace conflicting settings: $replace_configs" \
   'Display detection at login/reload: eDP-1 -> laptop; otherwise HDMI-A-1 + DP-1 -> PC; anything else -> fallback.' \
   'Laptop default: 1920x1080 at 60.03 Hz, scale 1.00; PC retains its saved dual-monitor layout.' \
-  'Display profiles: ~/.config/hypr/config/monitor_profiles.lua; local ~/.config/hypr/hyprmon.lua overrides load last.' \
-  'Keyboard settings: ~/.config/hypr/config/inputs.lua. Guide: docs/hyprland/INSTALL.md'
+  'Display profiles: ~/.config/hypr/config/monitor_profiles.lua; local HyprMon override loads last on the laptop only.' \
+  'Keyboard: plain US globally for firmware Q11; software Colemak only on the ThinkPad built-in keyboard.' \
+  'Keyboard device names must be verified on the laptop. Guide: docs/hyprland/INSTALL.md'
 
 if [ "$dry_run" = true ] && [ "$with_apps" = true ]; then
   if [ "$replace_configs" = true ]; then
@@ -212,6 +213,7 @@ fi
 
 printf '%s\n' \
   'Desktop installation complete. Log into a Hyprland (UWSM) session.' \
-  'Colemak is the default; Caps Lock is Compose; Alt+AltGr switches to US international.' \
+  'Q11 uses its firmware Colemak; only the built-in ThinkPad keyboard receives software Colemak.' \
+  'Verify its device name in hyprctl devices. Caps Lock is Compose; Alt+AltGr switches to US international.' \
   'Personal app shortcuts require --with-apps; Voxtype requires --with-voxtype.' \
   'Login manager unchanged. Optional Noctalia greeter: sh installer/install-noctalia-greeter.sh'

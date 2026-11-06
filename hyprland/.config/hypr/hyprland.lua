@@ -13,10 +13,12 @@ require("config.monitors")
 require("config.windowrules")
 require("config.workspaces")
 
--- hyprmon: managed monitor profile include
--- Optional: a fresh installation need not have a HyprMon profile yet.
-local hyprmon = io.open(os.getenv("HOME") .. "/.config/hypr/hyprmon.lua", "r")
-if hyprmon then
-    hyprmon:close()
-    require("hyprmon")
+-- Preserve the laptop's optional HyprMon override, but do not activate an old
+-- local monitor file on the desktop just because this shared config was pulled.
+if MONITOR_PROFILE.name == "laptop" then
+    local hyprmon = io.open(os.getenv("HOME") .. "/.config/hypr/hyprmon.lua", "r")
+    if hyprmon then
+        hyprmon:close()
+        require("hyprmon")
+    end
 end

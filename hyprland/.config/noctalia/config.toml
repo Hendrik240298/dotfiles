@@ -30,6 +30,7 @@ polkit_agent = true
 settings_show_advanced = true
 
     [shell.greeter_sync]
+    # Shared safe default: greeter setup is machine-local and opt-in.
     auto_sync = false
 
     [shell.panel]
