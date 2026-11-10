@@ -4,6 +4,28 @@ For daily navigation, mental models, shared shortcuts and a gradual adoption
 plan, start with [Keyboard-first Obsidian](KEYBOARD_WORKFLOW.md). This page covers
 configuration, installation and compatibility details.
 
+## Current Vim Motions setup
+
+The vimrc now targets **Vim Motions' bundled engine**, not Vimrc Support.
+Enable Vim Motions, leave external Neovim off, disable Vimrc Support and
+Obsidian's built-in Vim mode, and point Vim Motions at `.obsidian.vimrc`.
+The file declares Space as leader, enables leader-only Which Key with a 0 ms
+popup delay, and uses a 250 ms mapping-resolution timeout instead of 1000 ms.
+Which Key shows groups first, with readable names for every custom leader
+shortcut. Built-in Harpoon/Table groups remain enabled; this is not a strict
+custom-before-built-in ordering, which the plugin does not offer.
+`signcolumn=no` disables the plugin's reserved marks gutter so prose does not
+gain that extra left offset relative to the note title/properties; Vim marks
+remain usable without gutter indicators.
+`Space Space` still opens the native Quick Switcher; ambiguous longer mappings
+can retain a short command-resolution delay even though the menu is immediate.
+Run **Vim Motions: Reload configuration** after changes if file watching does
+not pick them up. These settings do not make existing editor mappings global.
+Calendar's adapter command remains optional and is not supplied by Vim Motions.
+
+The Vimrc Support installation details below describe the earlier setup; do not
+enable it alongside Vim Motions for the current configuration.
+
 ## Decision
 
 Use Obsidian's built-in Vim mode plus **Vimrc Support** (`obsidian-vimrc-support`).

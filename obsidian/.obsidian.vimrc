@@ -1,22 +1,31 @@
-" Obsidian Vimrc Support configuration
+" Obsidian Vim Motions configuration (bundled engine; no external Neovim)
 " Goal: keep Obsidian close to the VS Code LazyVim-style keymap.
-" Install the Obsidian community plugin "Vimrc Support" and enable core Vim mode.
+" Enable Vim Motions, disable Vimrc Support and Obsidian's built-in Vim mode.
 " Stow this package with an explicit vault-root target, NOT the default home target.
 " Normal-mode editor mappings only; native Obsidian hotkeys handle sidebar focus.
 " See docs/obsidian/README.md for setup, parity gaps, and manual checks.
-" No JavaScript snippets. Calendar focus additionally needs the optional local
-" Hendrik Keyboard adapter, which also supplies Explorer hjkl using Colemak letters.
+" No JavaScript snippets. Native Explorer hjkl is supplied by Vim Motions.
+" Calendar focus below still needs the optional local Hendrik Keyboard adapter.
 
 " Core Vim feel
 set clipboard=unnamed
+" Do not reserve an empty marks gutter beside prose; Vim marks still work.
+set signcolumn=no
 
 " Make wrapped Markdown lines behave naturally.
 nmap j gj
 nmap k gk
 
-" Space leader, matching VS Code.
-" Vimrc Support requires unmapping Space before using Space chords.
-" Use literal <Space>: released plugin versions may not support let mapleader.
+" Declare Space so Vim Motions recognises the existing literal Space mappings
+" as leader bindings and can show them in its built-in Which Key menu.
+let mapleader = " "
+set whichkey=leader
+set whichkeydelay=0
+set whichkeygrouping=grouped
+set whichkeysort=groups-first
+" Match VS Code's 250 ms mapping timeout, instead of the 1000 ms default.
+" Popup delay and ambiguous-mapping resolution are separate settings.
+set timeoutlen=250
 unmap <Space>
 
 " -----------------------------------------------------------------------------
@@ -199,6 +208,51 @@ nmap <Space>uc :calendar<CR>
 
 exmap graph obcommand graph:open
 nmap <Space>ug :graph<CR>
+
+" -----------------------------------------------------------------------------
+" Which Key presentation only: keep every shortcut and built-in feature intact.
+" Groups appear before individual entries (including numbered Harpoon pins).
+" Vim Motions does not support a separate custom-before-built-in sort order.
+" -----------------------------------------------------------------------------
+
+whichkeygroup <leader>b Tabs
+whichkeygroup <leader>f Files
+whichkeygroup <leader>q Close
+whichkeygroup <leader>s Search
+whichkeygroup <leader>u Interface
+whichkeygroup <leader>w Windows
+
+whichkeylabel <leader><leader> Find file
+whichkeylabel <leader>/ Find in note
+whichkeylabel <leader>e File explorer
+whichkeylabel <leader>bn New tab
+whichkeylabel <leader>ff Find file
+whichkeylabel <leader>fm New Markdown note
+whichkeylabel <leader>fR Rename note
+whichkeylabel <leader>fe Reveal note in explorer
+whichkeylabel <leader>sg Search vault
+whichkeylabel <leader>sc Command palette
+whichkeylabel <leader>sb Toggle left sidebar
+whichkeylabel <leader>wv Split right
+whichkeylabel <leader>ws Split down
+whichkeylabel <leader>vs Split right
+whichkeylabel <leader>hs Split down
+whichkeylabel <leader>wh Focus left pane
+whichkeylabel <leader>wj Focus lower pane
+whichkeylabel <leader>wk Focus upper pane
+whichkeylabel <leader>wl Focus right pane
+whichkeylabel <leader>wd Close tab group
+whichkeylabel <leader>wS Save note
+whichkeylabel <leader>qe Close tab
+whichkeylabel <leader>qq Close window
+whichkeylabel <leader>us Toggle left sidebar
+whichkeylabel <leader>uv Toggle right sidebar
+whichkeylabel <leader>sl Backlinks
+whichkeylabel <leader>so Outline
+whichkeylabel <leader>sx Outgoing links
+whichkeylabel <leader>sp Note properties
+whichkeylabel <leader>uc Focus Calendar (adapter required)
+whichkeylabel <leader>ug Open graph
 
 " -----------------------------------------------------------------------------
 " Placeholders from VS Code that do not map cleanly to core Obsidian
